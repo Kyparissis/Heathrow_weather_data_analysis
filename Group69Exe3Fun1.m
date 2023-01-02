@@ -25,9 +25,10 @@ function [p1, p2] = Group69Exe3Fun1(years, indicatorSample)
     sample_X2 = indicatorSample((problematicIndexes(1) + 1):length(indicatorSample));
 
     %% ============== (c') ==============
-    
+    [~, p1] = ttest2(sample_X1, sample_X2);
+
+    p2 = NaN;
 
     %% ============== (d') ==============
-    
 
 end
