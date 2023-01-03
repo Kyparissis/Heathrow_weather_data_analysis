@@ -1,3 +1,7 @@
+%% ------------|   Group 69   |------------
+% Kyparissis Kyparissis (University ID: 10346) (Email: kyparkypar@ece.auth.gr)
+% Fotios Alexandridis   (University ID:  9953) (Email: faalexandr@ece.auth.gr)
+
 function [p1, p2] = Group69Exe3Fun1(years, indicatorSample)
     %% ============== (a') ==============
     % Find discontinued values on the years vector argument

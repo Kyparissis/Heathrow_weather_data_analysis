@@ -1,3 +1,7 @@
+%% ------------|   Group 69   |------------
+% Kyparissis Kyparissis (University ID: 10346) (Email: kyparkypar@ece.auth.gr)
+% Fotios Alexandridis   (University ID:  9953) (Email: faalexandr@ece.auth.gr)
+
 function [ci1, ci2] = Group69Exe2Fun1(SampleObservations)
     SampleObservations = SampleObservations(~isnan(SampleObservations));
 

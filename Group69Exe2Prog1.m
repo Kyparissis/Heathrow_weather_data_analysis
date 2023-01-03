@@ -6,7 +6,7 @@ clc;        % Clear the console
 clear;      % Clear the workspace
 close all;  % Close all windows
 
-%% Import Heathrow.xlsl and read appropriate data
+%% Import Heathrow.xlsx and read appropriate data
 % Read Heathrow.xlsx spreadsheet as double matrix (for data)
 HeathrowData = 	readmatrix('Heathrow.xlsx');
 [HeathrowData_rows, HeathrowData_cols] = size(HeathrowData);

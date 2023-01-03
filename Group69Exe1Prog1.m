@@ -6,9 +6,14 @@ clc;        % Clear the console
 clear;      % Clear the workspace
 close all;  % Close all windows
 
-% Read Heathrow.xlsx spreadsheet as double matrix
-HeathrowData = 	readmatrix('Heathrow.xlsx'); 
+%% Import Heathrow.xlsx and read appropriate data
+% Read Heathrow.xlsx spreadsheet as double matrix (for data)
+HeathrowData = 	readmatrix('Heathrow.xlsx');
 [HeathrowData_rows, HeathrowData_cols] = size(HeathrowData);
+
+% Read Heathrow.xlsx spreadsheet as string matrix (for indicators text)
+HeathrowDataText = readcell('Heathrow.xlsx');
+HeathrowINDICATORText = string(HeathrowDataText(1, 2:HeathrowData_cols)); % Removing years column and keeping 1st row 
 
 p1 = zeros(1, HeathrowData_cols - 1);
 p2 = zeros(1, HeathrowData_cols - 1);
