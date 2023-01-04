@@ -27,8 +27,7 @@ function [p1, p2] = Group69Exe1Fun1(sample)
         bar(sample);
         
         % X^2 goodness-of-fit test that the sample comes from a population with a BINOMIAL distribution
-%         pd = fitdist(sample, 'Binomial');
-        [~, p1] = chi2gof(sample, 'cdf', {@binocdf, length(sample), 1/numberOfUniqueValues_sample}, 'nbins',numberOfUniqueValues_sample);
+        [~, p1] = chi2gof(sample, 'cdf', {@binocdf, length(sample), 1/numberOfUniqueValues_sample}, 'nbins', numberOfUniqueValues_sample);
 
         % X^2 goodness-of-fit test that the sample comes from a population with a DISCRETE UNIFORM distribution
         [~, p2] = chi2gof(sample, 'cdf', {@unidcdf, max(sample)}, 'nbins', numberOfUniqueValues_sample);

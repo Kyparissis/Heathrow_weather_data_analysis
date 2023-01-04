@@ -17,6 +17,6 @@ HeathrowINDICATORText = string(HeathrowDataText(1, 2:HeathrowData_cols)); % Remo
 
 for i = 1:9
     for j = (i + 1):9
-%         [] = Group69Exe4Fun1(HeathrowData(:, i + 1), HeathrowData(:, j + 1));
+        [paramFisherCI, bstrpCI, p1, p2, n] = Group69Exe4Fun1(HeathrowData(:, i + 1), HeathrowData(:, j + 1))
     end
 end
