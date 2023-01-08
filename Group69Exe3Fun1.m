@@ -27,12 +27,33 @@ function [p1, p2] = Group69Exe3Fun1(years, indicatorSample)
     % Splitting the indicatorSample into two vectors based on where discontinuity is first found
     sample_X1 = indicatorSample(1:(problematicIndexes(1)));
     sample_X2 = indicatorSample((problematicIndexes(1) + 1):length(indicatorSample));
-
+    
+    % Removing NaNs from the samples
+    sample_X1 = sample_X1(~isnan(sample_X1));
+    sample_X2 = sample_X2(~isnan(sample_X2));
+    
     %% ============== (c') ==============
-    [~, p1] = ttest2(sample_X1, sample_X2);
+    %% Parametric (student) hypothesis testing for mean difference
+    % (Guided by exercise 3.11)
+    sample_X1_mean = mean(sample_X1);
+    sample_X1_std = std(sample_X1);
+    sample_X1_length = length(sample_X1);
+    sample_X2_mean = mean(sample_X2);
+    sample_X2_std = std(sample_X2);
+    sample_X2_length = length(sample_X2);
 
-    p2 = NaN;
+    X1_X2_meanDiff = sample_X1_mean - sample_X2_mean;
+    X1_X2_pooledVariance = (sample_X1_std^2*(sample_X1_length - 1) + sample_X2_std^2*(sample_X2_length - 1)) / (sample_X1_length + sample_X2_length - 2);
+    X1_X2_pooledStd = sqrt(X1_X2_pooledVariance);
+    
+    % Compute the transformed t-statistic
+    t_sample = X1_X2_meanDiff / (X1_X2_pooledStd * sqrt(1/sample_X1_length + 1/sample_X2_length));
 
-    %% ============== (d') ==============
+    p1 = 2 * (1 - tcdf(abs(t_sample), sample_X1_length + sample_X2_length - 2)); % p-value for two-sided test
+%     [~, p1] = ttest2(sample_X1, sample_X2);
+
+    %% Resampling method (bootstrap is chosen) testing for mean difference
+    
+
 
 end

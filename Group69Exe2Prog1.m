@@ -51,13 +51,12 @@ for i = 1:9   % Checking for the first 9 indicators
     % Checking on the bootstrap confidence interval
     if bstrpCI(i, 1) <= HeathrowINDICATORData_1949_1958_mean(i) & HeathrowINDICATORData_1949_1958_mean(i) <= bstrpCI(i, 2)
         fprintf("--> Indicator %d mean value (1949-1958) is in the (1973-after) 95%% bootstrap confidence interval.\n", i);
-    end
-
-    % Check if the two confidence intervals differ significantly
-   
+    end   
     
     fprintf("\n");
 end
 
 %% Conclusions and comments
 % TODO: THIS
+%>...
+%...

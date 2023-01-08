@@ -1,8 +1,10 @@
-function [TypeOfModel, AdjCoeff] = Group69Exe7Fun1(sample1, sample2)
+function [TypeOfModel, AdjCoeffDet] = Group69Exe7Fun1(sample1, sample2)
     %% Two sample vectors must have the same length
     if length(sample1) ~= length(sample2)
+        fprintf("ERROR FOUND! Two sample vectors must have the same length.\n");
+        fprintf("Aborting...\n")
         TypeOfModel = NaN;
-        AdjCoeff = NaN;
+        AdjCoeffDet = NaN;
 
         return;
     end

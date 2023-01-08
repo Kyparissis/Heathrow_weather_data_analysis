@@ -1,8 +1,10 @@
-function [AdjCoeff, p] = Group69Exe8Fun1(sample1, sample2)
+function [AdjCoeffDet, p] = Group69Exe8Fun1(sample1, sample2)
     %% Two sample vectors must have the same length
     if length(sample1) ~= length(sample2)
-        AdjCoeff = NaN;
+        fprintf("ERROR FOUND! Two sample vectors must have the same length.\n");
+        fprintf("Aborting...\n")
         p = NaN;
+        AdjCoeffDet = NaN;
 
         return;
     end
