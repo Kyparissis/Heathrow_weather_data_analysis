@@ -16,9 +16,11 @@ HeathrowDataText = readcell('Heathrow.xlsx');
 HeathrowINDICATORText = string(HeathrowDataText(1, 2:HeathrowData_cols)); % Removing years column and keeping 1st row 
 
 for i = 1:length(HeathrowINDICATORText)
-    for j = (i + 1):length(HeathrowINDICATORText)
-        if i ~= find(HeathrowINDICATORText == 'TN') & j ~= find(HeathrowINDICATORText == 'TN')
-%             [] = Group69Exe6Fun1(HeathrowData(:, i + 1), HeathrowData(:, j + 1));
+    for j = 1:length(HeathrowINDICATORText)
+        if i ~= find(HeathrowINDICATORText == 'TN') & j ~= find(HeathrowINDICATORText == 'TN') & j ~= i
+            Group69Exe6Fun1(HeathrowData(:, i + 1), HeathrowData(:, j + 1));
+            xlabel(sprintf("Indicator %d (%s) sample", i, HeathrowINDICATORText(i)));
+            ylabel(sprintf("Indicator %d (%s) sample", j, HeathrowINDICATORText(j)));
         end
     end
 end

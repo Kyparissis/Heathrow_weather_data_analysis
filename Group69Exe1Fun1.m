@@ -4,6 +4,7 @@
 
 function [p1, p2] = Group69Exe1Fun1(sample)     
     sample = sample(~isnan(sample)); % Remove NaNs from sample
+    n = length(sample);
 
     % Calculate the number of unique / distinct values in the sample vector    
     numberOfUniqueValues_sample = length(unique(sample));
@@ -24,8 +25,8 @@ function [p1, p2] = Group69Exe1Fun1(sample)
         a = params(1); % lower endpoint (minimum)
         b = params(2); % upper endpoint (maximum)
         nbins = histObj.NumBins; % number of bins
-        edges = linspace(a,b,nbins+1); % edges of the bins
-        Expected = length(sample)/nbins*ones(nbins,1); % expected value (equal for uniform dist)
+        edges = linspace(a, b, nbins + 1); % edges of the bins
+        Expected = n/nbins*ones(nbins,1); % expected value (equal for uniform dist)
 
         [~,p2] = chi2gof(sample, 'Expected', Expected, 'Edges', edges);
         
@@ -40,20 +41,20 @@ function [p1, p2] = Group69Exe1Fun1(sample)
         % false
 %         p = mle(sample, 'distribution', 'Binomial', 'NTrials', length(sample));
 %         [~, p1] = chi2gof(sample, 'CDF', {@binocdf, length(sample), p});
+        p1 = NaN;
 
         %% X^2 goodness-of-fit test that the sample comes from a population with a DISCRETE UNIFORM distribution
-%         %false
-%         % Calculate the expected number of occurrences of each value
-%         Expected = length(sample) / numberOfUniqueValues_sample;
-% 
-%         % Calculate the chi-squared statistic
-%         chi2 = sum((histcounts(sample) - Expected).^2 / Expected);
-% 
-%         % Calculate the degrees of freedom
-%         df = numberOfUniqueValues_sample - 1;
-% 
-%         % Calculate the p-value
-%         p2 = 1 - chi2cdf(chi2, df);
+        %false
+        % Find the unique values and their counts in the input vector
+        [~, counts] = hist(sample);
+
+        % Calculate the expected counts for a discrete uniform distribution
+        expected_counts = length(sample) / numberOfUniqueValues_sample;
+
+        % Perform the chi-squared goodness of fit test
+        chi2stat = sum((counts - expected_counts).^2 ./ expected_counts);
+        df = numberOfUniqueValues_sample - 1;
+        p2 = 1 - chi2cdf(chi2stat, df);
 
         title(sprintf("BAR"));
     end

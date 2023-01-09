@@ -21,7 +21,7 @@ dependedVariable = HeathrowINDICATORData(:, find(HeathrowINDICATORText == depend
 for i = 1:length(HeathrowINDICATORText)
     if i ~= find(HeathrowINDICATORText == "TN")
         if i ~= find(HeathrowINDICATORText == dependedVariableText)
-%             [] = Group69Exe7Fun1(HeathrowINDICATORData(:, i), dependedVariable);
+            Group69Exe7Fun1(HeathrowINDICATORData(:, i), dependedVariable);
         end
     end
 end

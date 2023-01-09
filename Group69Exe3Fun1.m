@@ -5,10 +5,10 @@
 function [p1, p2] = Group69Exe3Fun1(years, indicatorSample)
     %% ============== (a') ==============
     % Find discontinued values on the years vector argument
-    problematicIndexes = find(diff(years) ~= 1);
+    discontinuityIndexes = find(diff(years) ~= 1);
     
     % If no such point is found, stop execution and throw an error
-    if isempty(problematicIndexes)
+    if isempty(discontinuityIndexes)
         fprintf("ERROR FOUND! Discontinuity couldn't be found the first argument.\n")
         fprintf("Aborting...\n")
         
@@ -25,8 +25,8 @@ function [p1, p2] = Group69Exe3Fun1(years, indicatorSample)
 
     %% ============== (b') ==============
     % Splitting the indicatorSample into two vectors based on where discontinuity is first found
-    sample_X1 = indicatorSample(1:(problematicIndexes(1)));
-    sample_X2 = indicatorSample((problematicIndexes(1) + 1):length(indicatorSample));
+    sample_X1 = indicatorSample(1:(discontinuityIndexes(1)));
+    sample_X2 = indicatorSample((discontinuityIndexes(1) + 1):length(indicatorSample));
     
     % Removing NaNs from the samples
     sample_X1 = sample_X1(~isnan(sample_X1));
@@ -53,7 +53,38 @@ function [p1, p2] = Group69Exe3Fun1(years, indicatorSample)
 %     [~, p1] = ttest2(sample_X1, sample_X2);
 
     %% Resampling method (bootstrap is chosen) testing for mean difference
-    
+    NumOfBootstrapSamples = 1000;       % Number of Bootstrap samples
+    sample = [sample_X1; sample_X2];
 
+    bootstrap_meanDiffs = zeros(NumOfBootstrapSamples, 1);
+    for i=1:NumOfBootstrapSamples
+        tmp_index = randi((sample_X1_length + sample_X2_length), (sample_X1_length + sample_X2_length), 1);
+        tmp_data = sample(tmp_index);
+        bootstap_samplesX1 = tmp_data(1:sample_X1_length);
+        bootstap_samplesX2 = tmp_data((sample_X1_length + 1):(sample_X1_length + sample_X2_length));
+
+        bootstrap_meanDiffs(i) = mean(bootstap_samplesX1) - mean(bootstap_samplesX2);
+    end
+    bootstrap_meanDiffs(NumOfBootstrapSamples+1) = X1_X2_meanDiff;
+
+    % Sort in ascending order
+    bootstrap_meanDiffs = sort(bootstrap_meanDiffs);
+
+    r = find(bootstrap_meanDiffs == X1_X2_meanDiff);
+
+    % If all the values are identical, select the middle rank
+    if length(r) == NumOfBootstrapSamples + 1
+        r = round((NumOfBootstrapSamples + 1)/2);
+    elseif length(r) >= 2
+        % If at least one bootstrap statistic is identical to the 
+        % original, pick the rank of one of them at random
+        r = r(unidrnd(length(r)));
+    end
+
+    if r > 0.5*(NumOfBootstrapSamples + 1)
+        p2 = 2*(1 - r/(NumOfBootstrapSamples + 1));
+    else
+        p2 = 2*r/(NumOfBootstrapSamples + 1);
+    end
 
 end

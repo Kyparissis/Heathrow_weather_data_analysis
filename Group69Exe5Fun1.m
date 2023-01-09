@@ -65,8 +65,8 @@ function [mutualInfoEstimate, p, n] = Group69Exe5Fun1(sample1, sample2)
 
     %% ============== (c') ==============
     % Non-parametric test using the randomization method
-
-
+    p = NaN;
+    
 
 
 

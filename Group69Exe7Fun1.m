@@ -1,10 +1,14 @@
-function [TypeOfModel, AdjCoeffDet] = Group69Exe7Fun1(sample1, sample2)
+%% ------------|   Group 69   |------------
+% Kyparissis Kyparissis (University ID: 10346) (Email: kyparkypar@ece.auth.gr)
+% Fotios Alexandridis   (University ID:  9953) (Email: faalexandr@ece.auth.gr)
+
+function [TypeOfModel, adjR2_Model] = Group69Exe7Fun1(sample1, sample2)
     %% Two sample vectors must have the same length
     if length(sample1) ~= length(sample2)
         fprintf("ERROR FOUND! Two sample vectors must have the same length.\n");
         fprintf("Aborting...\n")
         TypeOfModel = NaN;
-        AdjCoeffDet = NaN;
+        adjR2_Model = NaN;
 
         return;
     end
@@ -15,15 +19,87 @@ function [TypeOfModel, AdjCoeffDet] = Group69Exe7Fun1(sample1, sample2)
     indexes = (~isnan(sample1)) & (~isnan(sample2));
     sample1 = sample1(indexes);     % Independed variable
     sample2 = sample2(indexes);     % Depended variable
+    n = length(sample1);
 
 
     %% ============== (b') ==============
+    figure;
+    %% 1st degree (linear) regression model using least squares method
+    % TypeOfModel is 1
+    degree = 1;
+    x = [ones(n,1) sample1];
+    Y = sample2;
+    [b, ~] = regress(Y, x);
 
+    % Linear regression model: y = ax + b = b(2)*x + b(1)
+    x0 = linspace(min(sample1), max(sample1), 2)';
+    y0 = b(2)*x0 + b(1);
+    subplot(3,1,1);
+    scatter(sample1, sample2, 12, 'blue', 'filled');
+    hold on;
+    plot(x0,y0,'LineWidth',2, 'Color', 	"#D95319");
 
-    %% ============== (c') ==============
+    y = x * b;  % Predicted values
+    e = Y - y;  % Error
+    R2(1) = 1 - (sum(e.^2))/(sum((Y - mean(Y)).^2));
+    adjR2(1) = 1 - ((n - 1)/(n - (degree + 1)))*(sum(e.^2))/(sum((sample2 - mean(sample2)).^2));
+    text(max(xlim), max(ylim), sprintf("adjR^2 = %f", adjR2(1)), 'Horiz','right', 'Vert', 'cap')
 
+    %% 2nd degree regression model using least squares method
+    % TypeOfModel is 2
+    degree = 2;
+    x = [ones(n,1) sample1 sample1.^2];
+    Y = sample2;
+    [b, ~] = regress(Y, x);
+
+    % Regression model: y = a*x^2 + b*x + c = b(3)*x^2 + b(2)*x + b(1)
+    x0 = linspace(min(sample1), max(sample1), 1000)';
+    y0 = b(3)*x0.^2 + b(2)*x0 + b(1);
+    subplot(3,1,2);
+    scatter(sample1, sample2, 12, 'blue', 'filled');
+    hold on;
+    plot(x0,y0,'LineWidth',2, 'Color', 	"#D95319");
+    
+    y = x * b;  % Predicted values
+    e = Y - y;  % Error
+    R2(2) = 1 - (sum(e.^2))/(sum((Y - mean(Y)).^2));
+    adjR2(2) = 1 - ((n - 1)/(n - (degree + 1)))*(sum(e.^2))/(sum((sample2 - mean(sample2)).^2));
+    text(max(xlim), max(ylim), sprintf("adjR^2 = %f", adjR2(2)), 'Horiz','right', 'Vert', 'cap')
+
+    %% 3rd degree regression model using least squares method
+    % TypeOfModel is 3
+    degree = 3;
+    x = [ones(n,1) sample1 sample1.^2 sample1.^3];
+    Y = sample2;
+    [b, ~] = regress(Y, x);
+
+    % Regression model: y = a*x^3 + b*x^2 + c*x + d = b(4)*x^3 + b(3)*x^2 + b(2)*x + b(1)
+    x0 = linspace(min(sample1), max(sample1), 1000)';
+    y0 = b(4)*x0.^3 + b(3)*x0.^2 + b(2)*x0 + b(1);
+    subplot(3,1,3);
+    scatter(sample1, sample2, 12, 'blue', 'filled');
+    hold on;
+    plot(x0,y0,'LineWidth',2, 'Color', 	"#D95319");
+    
+
+    y = x * b;  % Predicted values
+    e = Y - y;  % Error
+    R2(3) = 1 - (sum(e.^2))/(sum((Y - mean(Y)).^2));
+    adjR2(3) = 1 - ((n - 1)/(n - (degree + 1)))*(sum(e.^2))/(sum((sample2 - mean(sample2)).^2));
+    text(max(xlim), max(ylim), sprintf("adjR^2 = %f", adjR2(3)), 'Horiz','right', 'Vert', 'cap')
+
+    %% - regression model using least squares method
+    % TypeOfModel is 4
+
+    %% - regression model using least squares method
+    % TypeOfModel is 5
 
     %% ============== (d') ==============
-
+    TypeOfModel = find(adjR2 == max(adjR2));
+    
+    %% ============== (e') ==============
+    adjR2_Model = max(adjR2);
 
 end
+
+% Test: Group69Exe7Fun1([16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46]', [2508 2518 3304 3423 3057 3190 3590 3883 3823 3646 3708 3333 3517 3241 3103 2776]')
