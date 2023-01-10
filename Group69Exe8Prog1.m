@@ -16,7 +16,6 @@ HeathrowINDICATORData = HeathrowData(:, 2:HeathrowData_cols);
 HeathrowDataText = readcell('Heathrow.xlsx');
 HeathrowINDICATORText = string(HeathrowDataText(1, 2:HeathrowData_cols)); % Removing years column and keeping 1st row 
 
-
 dependedVariableText = "FG";
 dependedVariable = HeathrowINDICATORData(:, find(HeathrowINDICATORText == dependedVariableText));
 for i = 1:length(HeathrowINDICATORText)

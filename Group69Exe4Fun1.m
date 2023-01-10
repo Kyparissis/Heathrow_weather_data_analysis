@@ -5,10 +5,7 @@
 function [paramFisherCI, bstrpCI, p1, p2, n] = Group69Exe4Fun1(sample1, sample2)
     %% Both samples must be vectors
     if ~(isvector(sample1) & isvector(sample2))
-        fprintf("ERROR FOUND! Two samples must be vectors.\n");
-        fprintf("Aborting...\n");
-
-        return;
+        error("ERROR FOUND! Two samples must be vectors.\nAborting...\n");
     end
     
     %% Make both vector samples column vectors
@@ -21,15 +18,7 @@ function [paramFisherCI, bstrpCI, p1, p2, n] = Group69Exe4Fun1(sample1, sample2)
 
     %% Two sample vectors must have the same length
     if length(sample1) ~= length(sample2)
-        fprintf("ERROR FOUND! Two sample vectors must have the same length.\n");
-        fprintf("Aborting...\n");
-        paramFisherCI = [NaN NaN];
-        bstrpCI = [NaN NaN];
-        p1 = NaN;
-        p2 = NaN;
-        n = NaN;
-
-        return;
+        error("ERROR FOUND! Two sample vectors must have the same length.\nAborting...\n");
     end
 
     %% ============== (a') ==============
@@ -91,6 +80,7 @@ function [paramFisherCI, bstrpCI, p1, p2, n] = Group69Exe4Fun1(sample1, sample2)
     %% Hypothesis test for H0: r=0 using the randomization method non-parametric test    
     % TODO: Fix this
     numberOfRandSamples = 1000;
+    p2 = NaN;
     
 
 end

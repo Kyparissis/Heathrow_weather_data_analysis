@@ -3,15 +3,22 @@
 % Fotios Alexandridis   (University ID:  9953) (Email: faalexandr@ece.auth.gr)
 
 function [mutualInfoEstimate, p, n] = Group69Exe5Fun1(sample1, sample2)
+    %% Both samples must be vectors
+    if ~(isvector(sample1) & isvector(sample2))
+        error("ERROR FOUND! Two samples must be vectors.\nAborting...\n");
+    end
+    
+    %% Make both vector samples column vectors
+    if ~iscolumn(sample1)
+        sample1 = sample1';
+    end
+    if ~iscolumn(sample2)
+        sample2 = sample2';
+    end
+
     %% Two sample vectors must have the same length
     if length(sample1) ~= length(sample2)
-        fprintf("ERROR FOUND! Two sample vectors must have the same length.\n");
-        fprintf("Aborting...\n")
-        mutualInfoEstimate = NaN;
-        p = NaN;
-        n = NaN;
-
-        return;
+        error("ERROR FOUND! Two sample vectors must have the same length.\nAborting...\n");
     end
 
     %% ============== (a') ==============

@@ -22,6 +22,17 @@ for i = 1:length(HeathrowINDICATORText)
     if i ~= find(HeathrowINDICATORText == "TN")
         if i ~= find(HeathrowINDICATORText == dependedVariableText)
             Group69Exe7Fun1(HeathrowINDICATORData(:, i), dependedVariable);
+            sgtitle(sprintf("Depended Variable: [%s] -- Independed Variable: [%s]", dependedVariableText, HeathrowINDICATORText(i)));
         end
     end
 end
+
+% ...
+%
+%   We can also see that some adjusted R square (adjR2) values are negative.
+% The formula for adjusted R square allows it to be negative. It is intended to approximate the actual percentage variance explained. 
+% So if the actual R square is close to zero the adjusted R square can be slightly negative and we think of it as an estimate of zero.
+% Keep in mind that adjusted R square is a model selection criterion, so neither its sign nor its magnitude have any statistical meaning (unlike R square). 
+% Low adjusted R square, whether negative or not, just tells you that the model is a poor fit.
+% 
+% ...

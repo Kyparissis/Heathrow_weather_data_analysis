@@ -3,19 +3,18 @@
 % Fotios Alexandridis   (University ID:  9953) (Email: faalexandr@ece.auth.gr)
 
 function [p1, p2] = Group69Exe3Fun1(years, indicatorSample)
+    %% Both samples must be vectors
+    if ~(isvector(years) & isvector(indicatorSample))
+        error("ERROR FOUND! Two samples must be vectors.\nAborting...\n");
+    end
+
     %% ============== (a') ==============
     % Find discontinued values on the years vector argument
     discontinuityIndexes = find(diff(years) ~= 1);
     
     % If no such point is found, stop execution and throw an error
     if isempty(discontinuityIndexes)
-        fprintf("ERROR FOUND! Discontinuity couldn't be found the first argument.\n")
-        fprintf("Aborting...\n")
-        
-        p1 = NaN;
-        p2 = NaN;
-        
-        return;
+        error("ERROR FOUND! Discontinuity couldn't be found the first argument.\nAborting...\n")
     end
     
 %     % Debugging:
