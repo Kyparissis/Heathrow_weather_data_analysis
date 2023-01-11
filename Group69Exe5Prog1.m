@@ -19,6 +19,7 @@ for i = 1:9
     for j = (i + 1):9        
         fprintf("  Indicator %d (%s) and Indicator %d (%s)    \n", i, HeathrowINDICATORText(i), j, HeathrowINDICATORText(j));
         fprintf("==========================================\n");
+        % Calculate Pearson's correlation coeff.
         X = HeathrowData(:, i + 1);
         Y = HeathrowData(:, j + 1);
         X = X((~isnan(HeathrowData(:, i + 1))) & (~isnan(HeathrowData(:, j + 1))));
@@ -26,8 +27,7 @@ for i = 1:9
         R = corrcoef(X, Y);
         r = R(1, 2);
         fprintf("Pearson's correlation coeff. = %d\n", r);
-        
-        % ...
+        % Significance test
         p_significance = NaN;
         fprintf("p-value = %d\n", p_significance);
 

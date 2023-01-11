@@ -4,8 +4,8 @@
 
 function [paramFisherCI, bstrpCI, p1, p2, n] = Group69Exe4Fun1(sample1, sample2)
     %% Both samples must be vectors
-    if ~(isvector(sample1) & isvector(sample2))
-        error("ERROR FOUND! Two samples must be vectors.\nAborting...\n");
+    if ~(isvector(sample1) && isvector(sample2))
+        error("ERROR FOUND! Two samples must be vectors. Aborting...");
     end
     
     %% Make both vector samples column vectors
@@ -18,19 +18,19 @@ function [paramFisherCI, bstrpCI, p1, p2, n] = Group69Exe4Fun1(sample1, sample2)
 
     %% Two sample vectors must have the same length
     if length(sample1) ~= length(sample2)
-        error("ERROR FOUND! Two sample vectors must have the same length.\nAborting...\n");
+        error("ERROR FOUND! Two sample vectors must have the same length. Aborting...");
     end
 
     %% ============== (a') ==============
     % Find the "empty" (NaN) values in the given samples and removing the value pairs,
     % so that the samples no longer have "empty" values.
-    indexes = (~isnan(sample1)) & (~isnan(sample2));
-    sample1 = sample1(indexes);
-    sample2 = sample2(indexes);
+    indexesToKeep = (~isnan(sample1)) & (~isnan(sample2));
+    sample1 = sample1(indexesToKeep);
+    sample2 = sample2(indexesToKeep);
     n = length(sample1); % == length(sample2)
 
-    R = corrcoef(sample1, sample2);
-    r = R(1, 2);
+    r_rand = corrcoef(sample1, sample2);
+    r = r_rand(1, 2);
 
     %% ============== (b') ==============
     %% Calculate the correlation coeff. (r) 95% confidence interval using the Fisher Transform
@@ -50,7 +50,7 @@ function [paramFisherCI, bstrpCI, p1, p2, n] = Group69Exe4Fun1(sample1, sample2)
     %% Calculate the correlation coeff. (r) 95% confidence interval using the bootstrap method
     % TODO: Check correctness
     alpha = 0.05;   % Significance level (100 × (1 – alpha)% confidence interval = 95% <=> alpha = 5% = 0.05)
-    numOfBootstrapSamples = 1000;
+    numOfBootstrapSamples = 2000;
 
     bstrpCI_lowerLimit = floor((numOfBootstrapSamples + 1)*alpha/2);
     bstrpCI_upperLimit = numOfBootstrapSamples + 1 - bstrpCI_lowerLimit;
@@ -78,9 +78,18 @@ function [paramFisherCI, bstrpCI, p1, p2, n] = Group69Exe4Fun1(sample1, sample2)
     p1 = 2 * (1 - tcdf(abs(t), n - 2));  % Compute p-value using t-distribution with n - 2 degrees of freedom
 
     %% Hypothesis test for H0: r=0 using the randomization method non-parametric test    
-    % TODO: Fix this
-    numberOfRandSamples = 1000;
-    p2 = NaN;
+    % TODO: Check correctness. Gives expected output but formula might be wrong?
+    numOfRandomizations = 2000;
     
+    r_rand = zeros(numOfRandomizations, 1);
+    for j = 1:numOfRandomizations
+        tmp_R = corrcoef(sample1, sample2(randperm(n)));
+        r_rand(j) = tmp_R(1,2);
+    end
+    
+    % Calculate p-value
+    % p-value represents the probability of observing a correlation coefficient as extreme or more extreme
+    % than the one observed in the original data, given that the null hypothesis (H0: r = 0) is true.
+    p2 = sum(abs(r_rand) >= abs(r)) / numOfRandomizations;
 
 end

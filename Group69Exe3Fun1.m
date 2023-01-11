@@ -2,10 +2,18 @@
 % Kyparissis Kyparissis (University ID: 10346) (Email: kyparkypar@ece.auth.gr)
 % Fotios Alexandridis   (University ID:  9953) (Email: faalexandr@ece.auth.gr)
 
-function [p1, p2] = Group69Exe3Fun1(years, indicatorSample)
+function [p_parametric, p_bootstrap] = Group69Exe3Fun1(years, indicatorSample)
     %% Both samples must be vectors
-    if ~(isvector(years) & isvector(indicatorSample))
-        error("ERROR FOUND! Two samples must be vectors.\nAborting...\n");
+    if ~(isvector(years) && isvector(indicatorSample))
+        error("ERROR FOUND! Two samples must be vectors. Aborting...");
+    end
+    
+    %% Make both vector samples column vectors
+    if ~iscolumn(years)
+        years = years';
+    end
+    if ~iscolumn(indicatorSample)
+        indicatorSample = indicatorSample';
     end
 
     %% ============== (a') ==============
@@ -14,7 +22,7 @@ function [p1, p2] = Group69Exe3Fun1(years, indicatorSample)
     
     % If no such point is found, stop execution and throw an error
     if isempty(discontinuityIndexes)
-        error("ERROR FOUND! Discontinuity couldn't be found the first argument.\nAborting...\n")
+        error("ERROR FOUND! Discontinuity couldn't be found the first argument. Aborting...")
     end
     
 %     % Debugging:
@@ -48,42 +56,42 @@ function [p1, p2] = Group69Exe3Fun1(years, indicatorSample)
     % Compute the transformed t-statistic
     t_sample = X1_X2_meanDiff / (X1_X2_pooledStd * sqrt(1/sample_X1_length + 1/sample_X2_length));
 
-    p1 = 2 * (1 - tcdf(abs(t_sample), sample_X1_length + sample_X2_length - 2)); % p-value for two-sided test
-%     [~, p1] = ttest2(sample_X1, sample_X2);
+    p_parametric = 2 * (1 - tcdf(abs(t_sample), sample_X1_length + sample_X2_length - 2)); % p-value for two-sided test
+%     [~, p_parametric] = ttest2(sample_X1, sample_X2);
 
     %% Resampling method (bootstrap is chosen) testing for mean difference
-    NumOfBootstrapSamples = 1000;       % Number of Bootstrap samples
-    sample = [sample_X1; sample_X2];
+    NumOfBootstrapSamples = 2000;       % Number of Bootstrap samples
+    tmp_sample = [sample_X1; sample_X2];
 
-    bootstrap_meanDiffs = zeros(NumOfBootstrapSamples, 1);
+    bootstrap_meanDiffs = zeros(NumOfBootstrapSamples + 1, 1);
     for i=1:NumOfBootstrapSamples
         tmp_index = randi((sample_X1_length + sample_X2_length), (sample_X1_length + sample_X2_length), 1);
-        tmp_data = sample(tmp_index);
+        tmp_data = tmp_sample(tmp_index);
         bootstap_samplesX1 = tmp_data(1:sample_X1_length);
         bootstap_samplesX2 = tmp_data((sample_X1_length + 1):(sample_X1_length + sample_X2_length));
 
         bootstrap_meanDiffs(i) = mean(bootstap_samplesX1) - mean(bootstap_samplesX2);
     end
-    bootstrap_meanDiffs(NumOfBootstrapSamples+1) = X1_X2_meanDiff;
+    bootstrap_meanDiffs(NumOfBootstrapSamples+1) = mean(sample_X1) - mean(sample_X2);
 
     % Sort in ascending order
     bootstrap_meanDiffs = sort(bootstrap_meanDiffs);
 
-    r = find(bootstrap_meanDiffs == X1_X2_meanDiff);
+    rank = find(bootstrap_meanDiffs == mean(sample_X1) - mean(sample_X2));
 
     % If all the values are identical, select the middle rank
-    if length(r) == NumOfBootstrapSamples + 1
-        r = round((NumOfBootstrapSamples + 1)/2);
-    elseif length(r) >= 2
+    if length(rank) == NumOfBootstrapSamples + 1
+        rank = round((NumOfBootstrapSamples + 1)/2);
+    elseif length(rank) >= 2
         % If at least one bootstrap statistic is identical to the 
         % original, pick the rank of one of them at random
-        r = r(unidrnd(length(r)));
+        rank = rank(unidrnd(length(rank)));
     end
 
-    if r > 0.5*(NumOfBootstrapSamples + 1)
-        p2 = 2*(1 - r/(NumOfBootstrapSamples + 1));
+    if rank > 0.5*(NumOfBootstrapSamples + 1)
+        p_bootstrap = 2*(1 - rank/(NumOfBootstrapSamples + 1));
     else
-        p2 = 2*r/(NumOfBootstrapSamples + 1);
+        p_bootstrap = 2*rank/(NumOfBootstrapSamples + 1);
     end
 
 end

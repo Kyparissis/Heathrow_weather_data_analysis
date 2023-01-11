@@ -21,12 +21,12 @@ dependedVariable = HeathrowINDICATORData(:, find(HeathrowINDICATORText == depend
 independedVariablesColumns = find(HeathrowINDICATORText ~= "GR" &  HeathrowINDICATORText ~= "TN" & HeathrowINDICATORText ~= "FG");
 independedVariables = HeathrowINDICATORData(:, independedVariablesColumns);
 
-Group69Exe10Fun1(dependedVariable, independedVariables);
+Group69Exe10Fun1(dependedVariable, independedVariables)
 
 dependedVariableText = "GR";
 dependedVariable = HeathrowINDICATORData(:, find(HeathrowINDICATORText == dependedVariableText));
 independedVariablesColumns = find(HeathrowINDICATORText ~= "FG" &  HeathrowINDICATORText ~= "TN" & HeathrowINDICATORText ~= "GR");
 independedVariables = HeathrowINDICATORData(:, independedVariablesColumns);
 
-Group69Exe10Fun1(dependedVariable, independedVariables);
+Group69Exe10Fun1(dependedVariable, independedVariables)
 

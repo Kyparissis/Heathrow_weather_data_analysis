@@ -19,9 +19,7 @@ HeathrowINDICATORText = string(HeathrowDataText(1, 2:HeathrowData_cols)); % Remo
 dependedVariableText = "FG";
 dependedVariable = HeathrowINDICATORData(:, find(HeathrowINDICATORText == dependedVariableText));
 for i = 1:length(HeathrowINDICATORText)
-    if i ~= find(HeathrowINDICATORText == "TN")
-        if i ~= find(HeathrowINDICATORText == dependedVariableText)
-%             [] = Group69Exe8Fun1(HeathrowINDICATORData(:, i), dependedVariable);
-        end
+    if i ~= find(HeathrowINDICATORText == "TN") && i ~= find(HeathrowINDICATORText == dependedVariableText)
+        [adjR2, p] = Group69Exe8Fun1(HeathrowINDICATORData(:, i), dependedVariable)
     end
 end

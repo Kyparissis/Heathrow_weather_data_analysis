@@ -6,8 +6,6 @@ clc;        % Clear the console
 clear;      % Clear the workspace
 close all;  % Close all windows
 
-%% TODO: CHECH THIS. PLOTS MIGHT APPEAR IN WRONG ORDER??
-
 %% Import Heathrow.xlsx and read appropriate data
 % Read Heathrow.xlsx spreadsheet as double matrix (for data)
 HeathrowData = 	readmatrix('Heathrow.xlsx');
@@ -17,16 +15,33 @@ HeathrowData = 	readmatrix('Heathrow.xlsx');
 HeathrowDataText = readcell('Heathrow.xlsx');
 HeathrowINDICATORText = string(HeathrowDataText(1, 2:HeathrowData_cols)); % Removing years column and keeping 1st row 
 
+R2 = nan(10, 10);
 for i = 1:length(HeathrowINDICATORText)
     if i ~= find(HeathrowINDICATORText == 'TN')
-        figure;
-        k = 0;
+        figure; % Init. new figure to hold subplots
+        k = 0;  % Counter for subplot placing
+        dependedVariable = HeathrowData(:, i + 1);
+        sgtitle(sprintf("Depended Variable: [%s]", HeathrowINDICATORText(i)));
     end
     for j = 1:length(HeathrowINDICATORText)
-         if i ~= find(HeathrowINDICATORText == 'TN') & j ~= find(HeathrowINDICATORText == 'TN') & j ~= i
+         if i ~= find(HeathrowINDICATORText == 'TN') && j ~= find(HeathrowINDICATORText == 'TN') && j ~= i
+            independedVariable = HeathrowData(:, j + 1);
             k = k + 1;
             subplot(5, 2, k);
-            Group69Exe6Fun1(HeathrowData(:, j + 1), HeathrowData(:, i + 1));
-        end
+            R2(i, j) = Group69Exe6Fun1(independedVariable, dependedVariable);
+            title(sprintf("Independed Variable: [%s]", HeathrowINDICATORText(j)));
+         end
+    end
+end
+
+[maxR2s, maxR2s_inds] = maxk(R2, 2, 2);
+for i = 1:size(R2, 1)
+    if i ~= find(HeathrowINDICATORText == 'TN')
+        fprintf("Independed Variable: Indicator %d [%s] has biggest R2 with Indicator %d [%s] and Indicator %d [%s]\n", i, HeathrowINDICATORText(i), ...
+                        maxR2s_inds(i, 1), HeathrowINDICATORText(maxR2s_inds(i, 1)), ...
+                        maxR2s_inds(i, 2), HeathrowINDICATORText(maxR2s_inds(i, 2)));
+        fprintf("=========================================\n");
+        fprintf("1st biggest R2 is with with Indicator %d [%s], R2 = %f\n", maxR2s_inds(i, 1), HeathrowINDICATORText(maxR2s_inds(i, 1)), maxR2s(i, 1));   
+        fprintf("2nd biggest R2 is with with Indicator %d [%s], R2 = %f\n\n", maxR2s_inds(i, 2), HeathrowINDICATORText(maxR2s_inds(i, 2)), maxR2s(i, 2));   
     end
 end

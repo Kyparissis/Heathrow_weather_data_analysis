@@ -19,11 +19,16 @@ HeathrowINDICATORText = string(HeathrowDataText(1, 2:HeathrowData_cols)); % Remo
 dependedVariableText = "FG";
 dependedVariable = HeathrowINDICATORData(:, find(HeathrowINDICATORText == dependedVariableText));
 for i = 1:length(HeathrowINDICATORText)
-    if i ~= find(HeathrowINDICATORText == "TN")
-        if i ~= find(HeathrowINDICATORText == dependedVariableText)
-            Group69Exe7Fun1(HeathrowINDICATORData(:, i), dependedVariable);
-            sgtitle(sprintf("Depended Variable: [%s] -- Independed Variable: [%s]", dependedVariableText, HeathrowINDICATORText(i)));
-        end
+    if i ~= find(HeathrowINDICATORText == "TN") && i ~= find(HeathrowINDICATORText == dependedVariableText)
+        [adjR2_Model(i), TypeOfModel(i)] = Group69Exe7Fun1(HeathrowINDICATORData(:, i), dependedVariable);
+        
+        sgtitle(sprintf("Depended Variable: [%s] -- Independed Variable: [%s]", dependedVariableText, HeathrowINDICATORText(i)));
+        
+        % Console output:
+        fprintf("  Depended Variable: [%s] -- Independed Variable: [%s]\n",dependedVariableText, HeathrowINDICATORText(i));
+        fprintf("========================================================\n");
+        fprintf("--> Best fitted by model #%d\n", TypeOfModel(i));
+        fprintf("----> with adjR2 = %f\n\n", adjR2_Model(i));
     end
 end
 
