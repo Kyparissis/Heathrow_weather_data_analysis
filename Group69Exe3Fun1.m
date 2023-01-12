@@ -38,6 +38,13 @@ function [p_parametric, p_bootstrap] = Group69Exe3Fun1(years, indicatorSample)
     % Removing NaNs from the samples
     sample_X1 = sample_X1(~isnan(sample_X1));
     sample_X2 = sample_X2(~isnan(sample_X2));
+
+    if isempty(sample_X1) || isempty(sample_X2)
+        p_parametric = NaN;
+        p_bootstrap = NaN;
+
+        return;
+    end
     
     %% ============== (c') ==============
     %% Parametric (student) hypothesis testing for mean difference
@@ -49,15 +56,15 @@ function [p_parametric, p_bootstrap] = Group69Exe3Fun1(years, indicatorSample)
     sample_X2_std = std(sample_X2);
     sample_X2_length = length(sample_X2);
 
-    X1_X2_meanDiff = sample_X1_mean - sample_X2_mean;
-    X1_X2_pooledVariance = (sample_X1_std^2*(sample_X1_length - 1) + sample_X2_std^2*(sample_X2_length - 1)) / (sample_X1_length + sample_X2_length - 2);
-    X1_X2_pooledStd = sqrt(X1_X2_pooledVariance);
-    
-    % Compute the transformed t-statistic
-    t_sample = X1_X2_meanDiff / (X1_X2_pooledStd * sqrt(1/sample_X1_length + 1/sample_X2_length));
-
-    p_parametric = 2 * (1 - tcdf(abs(t_sample), sample_X1_length + sample_X2_length - 2)); % p-value for two-sided test
-%     [~, p_parametric] = ttest2(sample_X1, sample_X2);
+%     X1_X2_meanDiff = sample_X1_mean - sample_X2_mean;
+%     X1_X2_pooledVariance = (sample_X1_std^2*(sample_X1_length - 1) + sample_X2_std^2*(sample_X2_length - 1)) / (sample_X1_length + sample_X2_length - 2);
+%     X1_X2_pooledStd = sqrt(X1_X2_pooledVariance);
+%     
+%     % Compute the transformed t-statistic
+%     t_sample = X1_X2_meanDiff / (X1_X2_pooledStd * sqrt(1/sample_X1_length + 1/sample_X2_length));
+% 
+%     p_parametric = 2 * (1 - tcdf(abs(t_sample), sample_X1_length + sample_X2_length - 2)); % p-value for two-sided test
+    [~, p_parametric] = ttest2(sample_X1, sample_X2);
 
     %% Resampling method (bootstrap is chosen) testing for mean difference
     NumOfBootstrapSamples = 2000;       % Number of Bootstrap samples

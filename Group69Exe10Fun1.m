@@ -50,20 +50,16 @@ function [OptimalModel_bin, LASSO_PenaltyFactor] = Group69Exe10Fun1(dependedVari
         y = x * b;                       % Predicted values
         e = dependedVariableSample - y;  % Error
         
-        % Calculate number of parameters
+        % Calculate number of non-linear parameters
         p = sum(bin);
         
         % Calculate the adjR2 value
         adjR2(i) = 1 - ((n - 1)/(n - (p + 1)))*(sum(e.^2))/(sum((dependedVariableSample - mean(dependedVariableSample)).^2));
     end
-    
+
     % Optimal model is the one with the maximum adjR2
     [~, OptimalModel_dec] = max(adjR2);
-    % Returning the optimal model as an 1xnumIndependedVariables boolean
-    % vector. If index (1,i) = 1, model uses Independed Variable from
-    % independedVariableSamples's column i. 
-    % If index (1,i) = 0 it doesn't use that variable.
-    % eg. OptimalModel_bin = [0 0 1 0 1 0 0 0 0] keeps columns' 3 and 5 independed variables
+    % Returning the optimal model as  a logical vector with length equal to the number of columns in independedVariableSamples, indicating which terms are in the final model.
     OptimalModel_bin = double(int2bit((OptimalModel_dec - 1), numIndependedVariables))';
 
     %% ============== (c') ==============

@@ -32,11 +32,11 @@ function [adjR2_Model, TypeOfModel] = Group69Exe7Fun1(sample1, sample2)
     %% ============== (b') ==============
     figure;
     %% 1st degree (linear) regression model using least squares method
-    % TypeOfModel is 1
-    params = 1;
+    %% TypeOfModel is 1
+    numOfVariables = 1;  % Number of non-linear parameters
     x = [ones(n,1) sample1];
     Y = sample2;
-    [b, ~] = regress(Y, x);
+    b = regress(Y, x);
 
     % Linear regression model: y = ax + b = b(2)*x + b(1)
     x0 = linspace(min(sample1), max(sample1), 2)';
@@ -51,18 +51,18 @@ function [adjR2_Model, TypeOfModel] = Group69Exe7Fun1(sample1, sample2)
     e = Y - y;  % Error
 
     R2(1) = 1 - (sum(e.^2))/(sum((Y - mean(Y)).^2));
-    adjR2(1) = 1 - ((n - 1)/(n - (params + 1)))*(sum(e.^2))/(sum((sample2 - mean(sample2)).^2));
+    adjR2(1) = 1 - ((n - 1)/(n - (numOfVariables + 1)))*(sum(e.^2))/(sum((sample2 - mean(sample2)).^2));
     text(max(xlim), 2*max(ylim)/3, sprintf("adjR^2 = %f", adjR2(1)), 'Horiz','right', 'Vert', 'cap');
 
     title("1st degree (linear) regression model");
     subtitle("(Model #1)");
 
     %% 2nd degree regression model using least squares method
-    % TypeOfModel is 2
-    params = 2;
+    %% TypeOfModel is 2
+    numOfVariables = 2;  % Number of non-linear parameters
     x = [ones(n,1) sample1 sample1.^2];
     Y = sample2;
-    [b, ~] = regress(Y, x);
+    b = regress(Y, x);
 
     % Regression model: y = a*x^2 + b*x + c = b(3)*x^2 + b(2)*x + b(1)
     x0 = linspace(min(sample1), max(sample1), 1000)';
@@ -77,18 +77,18 @@ function [adjR2_Model, TypeOfModel] = Group69Exe7Fun1(sample1, sample2)
     e = Y - y;  % Error
 
     R2(2) = 1 - (sum(e.^2))/(sum((Y - mean(Y)).^2));
-    adjR2(2) = 1 - ((n - 1)/(n - (params + 1)))*(sum(e.^2))/(sum((sample2 - mean(sample2)).^2));
+    adjR2(2) = 1 - ((n - 1)/(n - (numOfVariables + 1)))*(sum(e.^2))/(sum((sample2 - mean(sample2)).^2));
     text(max(xlim), 2*max(ylim)/3, sprintf("adjR^2 = %f", adjR2(2)), 'Horiz','right', 'Vert', 'cap');
 
     title("2nd degree regression model");
     subtitle("(Model #2)");
 
     %% 3rd degree regression model using least squares method
-    % TypeOfModel is 3
-    params = 3;
+    %% TypeOfModel is 3
+    numOfVariables = 3;  % Number of non-linear parameters
     x = [ones(n,1) sample1 sample1.^2 sample1.^3];
     Y = sample2;
-    [b, ~] = regress(Y, x);
+    b = regress(Y, x);
 
     % Regression model: y = a*x^3 + b*x^2 + c*x + d = b(4)*x^3 + b(3)*x^2 + b(2)*x + b(1)
     x0 = linspace(min(sample1), max(sample1), 1000)';
@@ -103,17 +103,17 @@ function [adjR2_Model, TypeOfModel] = Group69Exe7Fun1(sample1, sample2)
     e = Y - y;  % Error
 
     R2(3) = 1 - (sum(e.^2))/(sum((Y - mean(Y)).^2));
-    adjR2(3) = 1 - ((n - 1)/(n - (params + 1)))*(sum(e.^2))/(sum((sample2 - mean(sample2)).^2));
+    adjR2(3) = 1 - ((n - 1)/(n - (numOfVariables + 1)))*(sum(e.^2))/(sum((sample2 - mean(sample2)).^2));
     text(max(xlim), 2*max(ylim)/3, sprintf("adjR^2 = %f", adjR2(3)), 'Horiz','right', 'Vert', 'cap');
 
     title("3rd degree regression model");
     subtitle("(Model #3)");
 
     %% Ln-transform y = a*exp(b*x) regression model using least squares method
-    % TypeOfModel is 4
+    %% TypeOfModel is 4
     Y = log(sample2);
     x = [ones(n,1) sample1];
-    [b,~] = regress(Y, x);
+    b = regress(Y, x);
 
     % Regression model: y= ln(a) + b*x
     x0 = linspace(min(sample1), max(sample1), 1000)';
@@ -128,7 +128,7 @@ function [adjR2_Model, TypeOfModel] = Group69Exe7Fun1(sample1, sample2)
 
     R2(4) = 1 - (sum(e.^2))/(sum((Y - mean(Y)).^2));
     adjR2(4) = 1 - ((n - 1)/(n - 2))*(sum(e.^2))/(sum((Y - mean(Y)).^2));
-    text(max(xlim), 6*max(ylim)/7, sprintf("adjR^2 = %f", adjR2(4)), 'Horiz','right', 'Vert', 'cap');
+    text(max(xlim), max(ylim), sprintf("adjR^2 = %f", adjR2(4)), 'Horiz','right', 'Vert', 'cap');
 
     title("Ln-transform - intrinsically linear function regression model");
     subtitle("(Model #4)");

@@ -28,7 +28,7 @@ for i = 1:length(HeathrowINDICATORText)
         fprintf("  Depended Variable: [%s] -- Independed Variable: [%s]\n",dependedVariableText, HeathrowINDICATORText(i));
         fprintf("========================================================\n");
         fprintf("--> Best fitted by model #%d\n", TypeOfModel(i));
-        fprintf("----> with adjR2 = %f\n\n", adjR2_Model(i));
+        fprintf("----> adjR2 = %f\n\n", adjR2_Model(i));
     end
 end
 

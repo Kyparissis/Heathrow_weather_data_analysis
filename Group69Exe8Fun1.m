@@ -38,6 +38,7 @@ function [adjR2, p] = Group69Exe8Fun1(sample1, sample2)
     y = x * b;  % Predicted values
     e = Y - y;  % Error
     
+    % Number of non-linear parameters
     numOfVariables = 2;
     
     adjR2 = 1 - ((n - 1)/(n - (numOfVariables + 1)))*(sum(e.^2))/(sum((sample2 - mean(sample2)).^2));

@@ -19,7 +19,7 @@ HeathrowINDICATORText = string(HeathrowDataText(1, 2:HeathrowData_cols)); % Remo
 
 alpha = 0.05; % Significance level
 
-pairID = 0;                     % Holds an ID for every pair we are gonna test
+pairID = 0;  % Holds an ID for every pair we are gonna test
 % pairID2Indicators = nan(36, 2); % i-th line is the pair's ID, (i,1) and (i,2) are the 2 indicators of the pair
 
 for i = 1:9

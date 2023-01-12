@@ -20,6 +20,12 @@ dependedVariableText = "FG";
 dependedVariable = HeathrowINDICATORData(:, find(HeathrowINDICATORText == dependedVariableText));
 for i = 1:length(HeathrowINDICATORText)
     if i ~= find(HeathrowINDICATORText == "TN") && i ~= find(HeathrowINDICATORText == dependedVariableText)
-        [adjR2, p] = Group69Exe8Fun1(HeathrowINDICATORData(:, i), dependedVariable)
+        [adjR2, p] = Group69Exe8Fun1(HeathrowINDICATORData(:, i), dependedVariable);
+        
+        % Console output:
+        fprintf("  Depended Variable: [%s] -- Independed Variable: [%s]\n",dependedVariableText, HeathrowINDICATORText(i));
+        fprintf("========================================================\n");
+        fprintf("adjR2 = %f\n", adjR2);
+        fprintf("p-value = %e\n\n", p);
     end
 end

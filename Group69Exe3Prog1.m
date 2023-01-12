@@ -17,17 +17,27 @@ HeathrowData = 	readmatrix('Heathrow.xlsx');
 HeathrowDataText = readcell('Heathrow.xlsx');
 HeathrowINDICATORText = string(HeathrowDataText(1, 2:HeathrowData_cols)); % Removing years column and keeping 1st row 
 
+p_parametric = nan(1, 9);
+p_bootstrap = nan(1, 9);
 for i = 1:9     % Cheking for the first 9 indicators
-    [p_parametric, p_bootstrap] = Group69Exe3Fun1(HeathrowData(:, 1), HeathrowData(:, i + 1));
+    [p_parametric(i), p_bootstrap(i)] = Group69Exe3Fun1(HeathrowData(:, 1), HeathrowData(:, i + 1));
 
     fprintf("       Indicator %d (%s)      \n", i, HeathrowINDICATORText(i));
     fprintf("==============================\n");
-    fprintf("p-value from the parametric (student) check = %d \n", p_parametric);
-    fprintf("p-value from the resampling (bootstrap) check = %d \n", p_bootstrap);
+    fprintf("p-value from the parametric (student) check = %d \n", p_parametric(i));
+    fprintf("p-value from the resampling (bootstrap) check = %d \n", p_bootstrap(i));
 
 
     fprintf("\n");
 end
+
+fprintf("\n  Indicator with statistically most significant mean difference\n");
+fprintf("-----------------------------------------------------------------\n");
+[min_p_parametric, min_p_parametricInd] = min(p_parametric);
+[min_p_bootstrap, min_p_bootstrapInd] = min(p_bootstrap);
+fprintf("=> Indicator with the smallest p(parametric) value is [%s] \n", HeathrowINDICATORText(min_p_parametricInd));
+fprintf("=> Indicator with the smallest p(bootstrap) value is [%s] \n", HeathrowINDICATORText(min_p_bootstrapInd));
+
 
 % O deiktis pou tha exei thn megaliteri diafora stis dio periodous tha
 % einai autos me tin mikroteri pithanotita na exei diafora meswn timwn = 0,
