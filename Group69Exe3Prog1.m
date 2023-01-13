@@ -22,10 +22,10 @@ p_bootstrap = nan(1, 9);
 for i = 1:9     % Cheking for the first 9 indicators
     [p_parametric(i), p_bootstrap(i)] = Group69Exe3Fun1(HeathrowData(:, 1), HeathrowData(:, i + 1));
 
-    fprintf("       Indicator %d (%s)      \n", i, HeathrowINDICATORText(i));
+    fprintf("       Indicator %d [%s]      \n", i, HeathrowINDICATORText(i));
     fprintf("==============================\n");
-    fprintf("p-value from the parametric (student) check = %d \n", p_parametric(i));
-    fprintf("p-value from the resampling (bootstrap) check = %d \n", p_bootstrap(i));
+    fprintf("p-value from the parametric (student) test = %e \n", p_parametric(i));
+    fprintf("p-value from the resampling (bootstrap) test = %e \n", p_bootstrap(i));
 
 
     fprintf("\n");

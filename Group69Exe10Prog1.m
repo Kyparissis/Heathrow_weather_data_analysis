@@ -16,17 +16,47 @@ HeathrowINDICATORData = HeathrowData(:, 2:HeathrowData_cols);
 HeathrowDataText = readcell('Heathrow.xlsx');
 HeathrowINDICATORText = string(HeathrowDataText(1, 2:HeathrowData_cols)); % Removing years column and keeping 1st row 
 
+%% For depended variable FG
 dependedVariableText = "FG";
 dependedVariable = HeathrowINDICATORData(:, find(HeathrowINDICATORText == dependedVariableText));
-independedVariablesColumns = find(HeathrowINDICATORText ~= "GR" &  HeathrowINDICATORText ~= "TN" & HeathrowINDICATORText ~= "FG");
+independedVariablesColumns = find(HeathrowINDICATORText ~= "GR" &  HeathrowINDICATORText ~= "TN" & HeathrowINDICATORText ~= dependedVariableText);
 independedVariables = HeathrowINDICATORData(:, independedVariablesColumns);
 
-Group69Exe10Fun1(dependedVariable, independedVariables)
+fprintf("   Depended Variable: [%s]    \n", dependedVariableText);
+fprintf("============================= \n");
 
+[OptimalModel_bin, LASSO_PenaltyFactor] = Group69Exe10Fun1(dependedVariable, independedVariables);
+
+for j = 1:length(OptimalModel_bin)  
+    if OptimalModel_bin(j) == 1
+        fprintf("-> Indicator [%s] used in optimal model.\n", HeathrowINDICATORText(independedVariablesColumns(j)))
+    end
+end
+if isempty(LASSO_PenaltyFactor)
+    fprintf("---> LASSO couldn't find the optimal model.\n")
+else
+    fprintf("---> LASSO found the optimal model with penalty = %f\n", LASSO_PenaltyFactor);
+end
+
+%% For depended variable GR
 dependedVariableText = "GR";
 dependedVariable = HeathrowINDICATORData(:, find(HeathrowINDICATORText == dependedVariableText));
-independedVariablesColumns = find(HeathrowINDICATORText ~= "FG" &  HeathrowINDICATORText ~= "TN" & HeathrowINDICATORText ~= "GR");
+independedVariablesColumns = find(HeathrowINDICATORText ~= "FG" &  HeathrowINDICATORText ~= "TN" & HeathrowINDICATORText ~= dependedVariableText);
 independedVariables = HeathrowINDICATORData(:, independedVariablesColumns);
 
-Group69Exe10Fun1(dependedVariable, independedVariables)
+fprintf("\n   Depended Variable: [%s]    \n", dependedVariableText);
+fprintf("============================= \n");
+
+[OptimalModel_bin, LASSO_PenaltyFactor] = Group69Exe10Fun1(dependedVariable, independedVariables);
+
+for j = 1:length(OptimalModel_bin)  
+    if OptimalModel_bin(j) == 1
+        fprintf("-> Indicator [%s] used in optimal model.\n", HeathrowINDICATORText(independedVariablesColumns(j)))
+    end
+end
+if isempty(LASSO_PenaltyFactor)
+    fprintf("---> LASSO couldn't find the optimal model.\n")
+else
+    fprintf("---> LASSO found the optimal model with penalty = %f\n", LASSO_PenaltyFactor);
+end
 

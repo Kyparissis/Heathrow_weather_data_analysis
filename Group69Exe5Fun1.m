@@ -72,10 +72,52 @@ function [mutualInfoEstimate, p, n] = Group69Exe5Fun1(sample1, sample2)
     mutualInfoEstimate = H_S1 + H_S2 - H_S1S2;
 
     %% ============== (c') ==============
-    % Non-parametric test using the randomization method
-    p = NaN;
+    %% Non-parametric test using the randomization method
+    % TODO: Check correctness. Gives expected output but formula might be wrong?
+    numOfRandomizations = 3000;
+
+    mutualInfoEstimate_rnd = nan(1, numOfRandomizations);
     
+    for j = 1:numOfRandomizations
+        ind = randperm(n);
+%         ind2 = randperm(n);
+        % Discriminate both samples and make them "binary samples"
+        sample1_discriminated = sample1 > median(sample1);
+        sample2_discriminated = sample2(ind) > median(sample2(ind));
+        
+        % Calculate the marginal probabilities
+        pS1 = sum(sample1_discriminated) / n;
+        pS2 = sum(sample2_discriminated) / n;
 
+        % Calculate the entropy of sample1
+        H_S1 = -pS1 * log2(pS1) - (1 - pS1) * log2(1 - pS1);
 
+        % Calculate the entropy of sample2
+        H_S2 = -pS2 * log2(pS2) - (1 - pS2) * log2(1 - pS2);
+
+        % Calculate the joint probabilities and joint entropy  
+        H_S1S2 = 0; 
+        pS1S2 = sum(sample1_discriminated & sample2_discriminated) / n;     % Pr{sample1_discrimination = 1, sample2_discrimination = 1}
+        if pS1S2 ~= 0
+            H_S1S2 = H_S1S2 - pS1S2 * log2(pS1S2);
+        end
+        pS1_S2 = sum(sample1_discriminated & ~sample2_discriminated) / n;   % Pr{sample1_discrimination = 1, sample2_discrimination = 0}
+        if pS1_S2 ~= 0
+            H_S1S2 = H_S1S2 - pS1_S2 * log2(pS1_S2);
+        end
+        pS2_S1 = sum(sample2_discriminated & ~sample1_discriminated) / n;   % Pr{sample1_discrimination = 0, sample2_discrimination = 1}
+        if pS2_S1 ~= 0
+            H_S1S2 = H_S1S2 - pS2_S1 * log2(pS2_S1);
+        end
+        p_S1S2 = sum(~sample1_discriminated & ~sample2_discriminated) / n;  % Pr{sample1_discrimination = 0, sample2_discrimination = 0}
+        if p_S1S2 ~= 0
+            H_S1S2 = H_S1S2 - p_S1S2 * log2(p_S1S2);
+        end
+
+        % Calculate the mutual information estimate
+        mutualInfoEstimate_rnd(j) = H_S1 + H_S2 - H_S1S2;
+    end
+    
+    p = sum(mutualInfoEstimate_rnd >= mutualInfoEstimate) / numOfRandomizations;
 
 end

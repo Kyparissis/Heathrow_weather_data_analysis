@@ -2,7 +2,7 @@
 % Kyparissis Kyparissis (University ID: 10346) (Email: kyparkypar@ece.auth.gr)
 % Fotios Alexandridis   (University ID:  9953) (Email: faalexandr@ece.auth.gr)
 
-function [p1, p2] = Group69Exe1Fun1(sample)     
+function [p1, p2, isContinuous] = Group69Exe1Fun1(sample)     
     sample = sample(~isnan(sample)); % Remove NaNs from sample
     n = length(sample);
 
@@ -10,6 +10,7 @@ function [p1, p2] = Group69Exe1Fun1(sample)
     numberOfUniqueValues_sample = length(unique(sample));
 
     if numberOfUniqueValues_sample > 10
+        isContinuous = 1; % It is treated as a continuous variable
         %% ============== (a') ==============
         % Create the histogram for the appropriate equal division
         figure;
@@ -30,35 +31,29 @@ function [p1, p2] = Group69Exe1Fun1(sample)
 
         [~,p2] = chi2gof(sample, 'Expected', Expected, 'Edges', edges);
         
-        title(sprintf("HISTOGRAM"));
+        subtitle(sprintf("(Num. of distinct values > 10) HISTOGRAM\np_{1_{Normal}} = %e | p_{2_{Contin. Unif.}} = %e", p1, p2));
+        xlabel("Bins");
+        ylabel("Number of appearances");
     else % if numberOfUniqueValues_sample <= 10
+        isContinuous = 0; % It is treated as a discrete variable
         %% ============== (b') ==============
         % Create the bar chart
         figure;
         bar(sample);
+
+        p = sum(sample)/n;
+
+        % Perform the chi square goodness of fit test
+        [h,p1] = chi2gof(sample,'Ctrs',1:9,'Frequency',n,'Expected',n*p);
         
         %% X^2 goodness-of-fit test that the sample comes from a population with a BINOMIAL distribution
         % false
-%         p = mle(sample, 'distribution', 'Binomial', 'NTrials', length(sample));
-%         [~, p1] = chi2gof(sample, 'CDF', {@binocdf, length(sample), p});
-        p1 = NaN;
+        
 
         %% X^2 goodness-of-fit test that the sample comes from a population with a DISCRETE UNIFORM distribution
-        %false
-        % Find the unique values and their counts in the input vector
-        [~, counts] = hist(sample);
-
-        % Calculate the expected counts for a discrete uniform distribution
-        expected_counts = length(sample) / numberOfUniqueValues_sample;
-
-        % Perform the chi-squared goodness of fit test
-        chi2stat = sum((counts - expected_counts).^2 ./ expected_counts);
-        df = numberOfUniqueValues_sample - 1;
-        p2 = 1 - chi2cdf(chi2stat, df);
-
-        title(sprintf("BAR"));
+        p2 = NaN;
+        
+        subtitle(sprintf("(Num. of distinct values <= 10) BAR GRAPH\np_{1_{Binomial}} = %e | p_{2_{Disc. Unif.}} = %e", p1, p2));
     end
-    
-    subtitle(sprintf("p_1 = %d | p_2 = %d", p1, p2));
-    
+
 end

@@ -35,21 +35,21 @@ bstrpCI = NaN(9, 2);
 for i = 1:9   % Checking for the first 9 indicators
     [parametricCI(i, :), bstrpCI(i, :)] = Group69Exe2Fun1(HeathrowINDICATORData_after1973(:, i));
 
-    fprintf("       Indicator %d (%s)      \n", i, HeathrowINDICATORText(i));
+    fprintf("       Indicator %d [%s]      \n", i, HeathrowINDICATORText(i));
     fprintf("==============================\n")
-    fprintf("-> Mean value (1973-after) 95%% parametric confidence interval = [%d , %d]\n",parametricCI(i, 1), parametricCI(i, 2));
-    fprintf("-> Mean value (1973-after) 95%% bootstrap confidence interval = [%d , %d]\n",bstrpCI(i, 1), bstrpCI(i, 2));
-    fprintf("-> Mean value (1949-1958) = %d\n", HeathrowINDICATORData_1949_1958_mean(i));
-    fprintf("-> Mean value (1973-after) = %d\n", HeathrowINDICATORData_after1973_mean(i));
+    fprintf("-> Mean value (1973-after) 95%% parametric confidence interval = [%e , %e]\n",parametricCI(i, 1), parametricCI(i, 2));
+    fprintf("-> Mean value (1973-after) 95%% bootstrap confidence interval = [%e , %e]\n",bstrpCI(i, 1), bstrpCI(i, 2));
+    fprintf("-> Mean value (1949-1958) = %e\n", HeathrowINDICATORData_1949_1958_mean(i));
+    fprintf("-> Mean value (1973-after) = %e\n", HeathrowINDICATORData_after1973_mean(i));
 
     % Cheking if the indicator's mean value from the 1949-1958 period is in
     % either mean value confidence interval from the period 1973-after
     % Checking on the parametric confidence interval
-    if parametricCI(i, 1) <= HeathrowINDICATORData_1949_1958_mean(i) & HeathrowINDICATORData_1949_1958_mean(i) <= parametricCI(i, 2)
+    if parametricCI(i, 1) <= HeathrowINDICATORData_1949_1958_mean(i) && HeathrowINDICATORData_1949_1958_mean(i) <= parametricCI(i, 2)
         fprintf("--> Indicator %d mean value (1949-1958) is in the (1973-after) 95%% parametric confidence interval.\n", i);
     end
     % Checking on the bootstrap confidence interval
-    if bstrpCI(i, 1) <= HeathrowINDICATORData_1949_1958_mean(i) & HeathrowINDICATORData_1949_1958_mean(i) <= bstrpCI(i, 2)
+    if bstrpCI(i, 1) <= HeathrowINDICATORData_1949_1958_mean(i) && HeathrowINDICATORData_1949_1958_mean(i) <= bstrpCI(i, 2)
         fprintf("--> Indicator %d mean value (1949-1958) is in the (1973-after) 95%% bootstrap confidence interval.\n", i);
     end   
     

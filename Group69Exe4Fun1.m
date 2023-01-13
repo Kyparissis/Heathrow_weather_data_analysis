@@ -2,7 +2,7 @@
 % Kyparissis Kyparissis (University ID: 10346) (Email: kyparkypar@ece.auth.gr)
 % Fotios Alexandridis   (University ID:  9953) (Email: faalexandr@ece.auth.gr)
 
-function [paramFisherCI, bstrpCI, p1, p2, n] = Group69Exe4Fun1(sample1, sample2)
+function [paramFisherCI, bstrpCI, p_param, p_nonParam, n] = Group69Exe4Fun1(sample1, sample2)
     %% Both samples must be vectors
     if ~(isvector(sample1) && isvector(sample2))
         error("ERROR FOUND! Two samples must be vectors. Aborting...");
@@ -48,7 +48,6 @@ function [paramFisherCI, bstrpCI, p1, p2, n] = Group69Exe4Fun1(sample1, sample2)
     paramFisherCI(2) = tanh(zeta(2));
 
     %% Calculate the correlation coeff. (r) 95% confidence interval using the bootstrap method
-    % TODO: Check correctness
     alpha = 0.05;   % Significance level (100 × (1 – alpha)% confidence interval = 95% <=> alpha = 5% = 0.05)
     numOfBootstrapSamples = 2000;
 
@@ -75,10 +74,9 @@ function [paramFisherCI, bstrpCI, p1, p2, n] = Group69Exe4Fun1(sample1, sample2)
     %% ============== (c') ==============
     %% Hypothesis test for H0: r=0 using the t(Student)-statistic parametric test
     t = r * sqrt((n - 2) / (1 - r^2));   % Compute t-statistic
-    p1 = 2 * (1 - tcdf(abs(t), n - 2));  % Compute p-value using t-distribution with n - 2 degrees of freedom
+    p_param = 2 * (1 - tcdf(abs(t), n - 2));  % Compute p-value using t-distribution with n - 2 degrees of freedom
 
     %% Hypothesis test for H0: r=0 using the randomization method non-parametric test    
-    % TODO: Check correctness. Gives expected output but formula might be wrong?
     numOfRandomizations = 2000;
     
     r_rand = zeros(numOfRandomizations, 1);
@@ -90,6 +88,6 @@ function [paramFisherCI, bstrpCI, p1, p2, n] = Group69Exe4Fun1(sample1, sample2)
     % Calculate p-value
     % p-value represents the probability of observing a correlation coefficient as extreme or more extreme
     % than the one observed in the original data, given that the null hypothesis (H0: r = 0) is true.
-    p2 = sum(abs(r_rand) >= abs(r)) / numOfRandomizations;
+    p_nonParam = sum(abs(r_rand) >= abs(r)) / numOfRandomizations;
 
 end

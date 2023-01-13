@@ -19,4 +19,5 @@ p1 = zeros(1, HeathrowData_cols - 1);
 p2 = zeros(1, HeathrowData_cols - 1);
 for i = 2:HeathrowData_cols
     [p1(i), p2(i)] = Group69Exe1Fun1(HeathrowData(:, i));
+    title(sprintf("Indicator %d [%s]", (i - 1), HeathrowINDICATORText(i - 1)));
 end

@@ -26,14 +26,14 @@ for i = 1:9
     for j = (i + 1):9
         pairID = pairID + 1;
         
-        [paramFisherCI, bstrpCI, p1(pairID), p2(pairID), n] = Group69Exe4Fun1(HeathrowData(:, i + 1), HeathrowData(:, j + 1));
+        [paramFisherCI, bstrpCI, p_param(pairID), p_nonParam(pairID), n] = Group69Exe4Fun1(HeathrowData(:, i + 1), HeathrowData(:, j + 1));
         
-        fprintf("  Indicator %d (%s) and Indicator %d (%s) [Pair #%d]   \n", i, HeathrowINDICATORText(i), j, HeathrowINDICATORText(j), pairID);
-        fprintf("=====================================================\n");
+        fprintf("  Indicator %d [%s] and Indicator %d [%s] - [Pair #%d]   \n", i, HeathrowINDICATORText(i), j, HeathrowINDICATORText(j), pairID);
+        fprintf("=======================================================\n");
         fprintf("Fisher transform confidence interval: [%e %e]\n", paramFisherCI(1), paramFisherCI(2))
         fprintf("Bootstrap confidence interval: [%e %e]\n", bstrpCI(1), bstrpCI(2))
-        fprintf("p-value (H0: r == 0) from the parametric (student) test = %e \n", p1(pairID));
-        fprintf("p-value (H0: r == 0) from the randomization method non-parametric test = %e \n", p2(pairID));
+        fprintf("p-value (H0: r == 0) from the parametric (student) test = %e \n", p_param(pairID));
+        fprintf("p-value (H0: r == 0) from the randomization method non-parametric test = %e \n", p_nonParam(pairID));
         
         % Cheking if r = 0 exists in fisher transf. confidence interval
         if ~(paramFisherCI(1) <= 0 && 0 <= paramFisherCI(2))
@@ -44,11 +44,11 @@ for i = 1:9
             fprintf("--> r == 0 is NOT in bootstrap Confidence Interval\n")
         end
         % Cheking for rejection of H0: r=0 according to parametric p-value
-        if p1(pairID) < alpha
+        if p_param(pairID) < alpha
             fprintf("--> p(parametric) < %.2f <=> Rejection of H0: r == 0 at this signif. level.\n", alpha)
         end
         % Cheking for rejection of H0: r=0 according to non-parametric p-value
-        if p2(pairID) < alpha
+        if p_nonParam(pairID) < alpha
             fprintf("--> p(non-parametric) < %.2f <=> Rejection of H0: r == 0 at this signif. level.\n", alpha)
         end
 
@@ -64,16 +64,12 @@ end
 fprintf("\n  Pairs with statistically most significant correlation\n");
 fprintf("---------------------------------------------------------\n");
 % Find 3 smallest p1 values
-[p1s, pairsWithSmallest_p1] = mink(p1, 3);
+[p1s, pairsWithSmallest_p1] = mink(p_param, 3);
 fprintf("=> The 3 pairs with the smallest p(parametric) value are pairs: #%d #%d and #%d\n", pairsWithSmallest_p1(1), pairsWithSmallest_p1(2), pairsWithSmallest_p1(3));
 
 % Find 3 smallest p2 values
-[p2s, pairsWithSmallest_p2] = mink(p2, 3);
+[p2s, pairsWithSmallest_p2] = mink(p_nonParam, 3);
 fprintf("=> The 3 pairs with the smallest p(non-parametric) value are pairs: #%d #%d and #%d\n", pairsWithSmallest_p2(1), pairsWithSmallest_p2(2), pairsWithSmallest_p2(3));
-% % Check if the two tests agree by comparing the vectors that hold the pairIDs
-% if isequal(pairsWithSmallest_p1, pairsWithSmallest_p2)
-%     fprintf("====> The two tests agree!\n")
-% end
 
 % ...
 % ...

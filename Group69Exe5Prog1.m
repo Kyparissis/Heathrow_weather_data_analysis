@@ -17,7 +17,7 @@ HeathrowINDICATORText = string(HeathrowDataText(1, 2:HeathrowData_cols)); % Remo
 
 for i = 1:9
     for j = (i + 1):9        
-        fprintf("  Indicator %d (%s) and Indicator %d (%s)    \n", i, HeathrowINDICATORText(i), j, HeathrowINDICATORText(j));
+        fprintf("  Indicator %d [%s] and Indicator %d [%s]    \n", i, HeathrowINDICATORText(i), j, HeathrowINDICATORText(j));
         fprintf("==========================================\n");
         % Calculate Pearson's correlation coeff and signif. p-value
         X = HeathrowData(:, i + 1);
@@ -28,12 +28,18 @@ for i = 1:9
         r = R(1, 2);
         p_significance = p_significance(1, 2);
         fprintf("Pearson's correlation coeff. = %d\n", r);
-        fprintf("p-value = %d\n", p_significance);
+        fprintf("p-value (H0: r = 0) = %d\n", p_significance);
 
         [mutualInfoEstimate, p, n] = Group69Exe5Fun1(HeathrowData(:, i + 1), HeathrowData(:, j + 1));
         fprintf("Mutal Information I(X,Y) = %d\n", mutualInfoEstimate);
-        fprintf("p-value (Non-parametric test using the randomization method) = %d\n", p);
+        fprintf("p-value (Non-parametric test using the randomization method) (H0: I = 0) = %d\n", p);
 
         fprintf("\n");
     end
 end
+
+% Pearson's correlation coefficient is a measure of the linear correlation between two variables, while mutual information 
+% is a measure of the amount of information shared between two variables. While both can be used to quantify the relationship 
+% between two variables, they do so in different ways and are therefore not directly comparable. Pearson's correlation 
+% coefficient measures the strength and direction of a linear relationship, while mutual information measures the reduction in 
+% uncertainty about one variable given knowledge of the other.

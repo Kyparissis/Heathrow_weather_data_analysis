@@ -67,7 +67,7 @@ function [OptimalModel_bin, LASSO_PenaltyFactor] = Group69Exe10Fun1(dependedVari
     % It makes sure that the LASSO method is not affected by the scale of the independent variables
     independedVariableSamples_centered = independedVariableSamples - repmat(mean(independedVariableSamples), n, 1);
     dependedVariableSample_centered = dependedVariableSample - mean(dependedVariableSample);
-    
+    LASSO_PenaltyFactor = [];
     
 
 end

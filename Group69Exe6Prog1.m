@@ -29,7 +29,7 @@ for i = 1:length(HeathrowINDICATORText)
          if i ~= find(HeathrowINDICATORText == 'TN') && j ~= find(HeathrowINDICATORText == 'TN') && j ~= i
             independedVariable = HeathrowData(:, j + 1);
             k = k + 1;
-            subplot(5, 2, k);
+            subplot(3, 3, k);
             R2(i, j) = Group69Exe6Fun1(independedVariable, dependedVariable);
             title(sprintf("Independed Variable: [%s]", HeathrowINDICATORText(j)));
          end

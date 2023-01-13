@@ -33,7 +33,7 @@ HeathrowData(rowsWithNaN, :) = [];
 
 %% For [FG] Indicator
 dependedVariableCol = [find(HeathrowINDICATORText == "FG") find(HeathrowINDICATORText == "GR")];
-for i = 1
+for i = 1:length(dependedVariableCol)
     % Getting dependedVariable column
     dependedVariable = HeathrowData(:, dependedVariableCol(i)); 
     dependedVariableText = HeathrowINDICATORText(dependedVariableCol(i));
@@ -42,14 +42,14 @@ for i = 1
     independedVariables(:, dependedVariableCol(i)) = [];
     
     % Getting independed indicators' texts (used for console output)
-    HeathrowINDICATORText_tmp = HeathrowINDICATORText;
-    HeathrowINDICATORText_tmp(dependedVariableCol(i)) = [];
+    independedVariableTexts = HeathrowINDICATORText;
+    independedVariableTexts(dependedVariableCol(i)) = [];
     
     fprintf("   Depended Variable: [%s]    \n", HeathrowINDICATORText(dependedVariableCol(i)));
     fprintf("============================= \n");
     
     %% ============== (b') ==============
-    fprintf("[Linear regression model with all indicators]\n")
+    fprintf("[ Linear regression model with all indicators ]\n")
     Y = dependedVariable;
     x = [ones(HeathrowData_rows_noNaN, 1) independedVariables];
 
@@ -58,7 +58,7 @@ for i = 1
    
     % Used to get the pvals
     % We don't need to insert ones(HeathrowData_rows_noNaN, 1) col here
-    lmObj = fitlm(independedVariables, Y, 'VarNames', [HeathrowINDICATORText_tmp dependedVariableText]); 
+    lmObj = fitlm(independedVariables, Y, 'VarNames', [independedVariableTexts dependedVariableText]); 
    
     y = x * b;
     e = Y - y;
@@ -69,7 +69,7 @@ for i = 1
     se2 = (1/(n - (k + 1)))*sum(e.^2); % error variance == stats(4) == lmObj.MSE
     R2 = 1 - (sum(e.^2))/(sum((Y - mean(Y)).^2)); % == stats(1) == lmObj.Rsquared.Ordinary
     adjR2 = 1 - ((n - 1)/(n - (k + 1)))*(sum(e.^2))/(sum((Y - mean(Y)).^2)); % == lmObj.Rsquared.Adjusted
-    fprintf("--> Error variance / Mean squared error = %f\n", se2);
+    fprintf("--> Error variance = %f\n", se2);
     fprintf("--> R2 = %f\n", R2);
     fprintf("--> adjR2 = %f\n", adjR2);
     
@@ -79,19 +79,27 @@ for i = 1
     alpha = 0.05;
     for j = 2:length(pval) % Ignoring 1st pval since its for the intercept
         if pval(j) < alpha
-            fprintf("---> Indicator's [%s] coeff. is statistically significant.\n", HeathrowINDICATORText_tmp(j - 1));
+            fprintf("---> Indicator's [%s] coeff. is statistically significant.\n", independedVariableTexts(j - 1));
         end
     end
 
     %% ============== (c') ==============
-    fprintf("\n[Stepwise regression model]\n")
+    fprintf("\n[ Stepwise regression model ]\n")
     Y = dependedVariable;
     x = [ones(HeathrowData_rows_noNaN, 1) independedVariables];
 
     % Calculate linear regression parameters
     [bs, ~, pval, finalmodel, stats] = stepwisefit(independedVariables, Y, 'display', 'off'); % Could use stepwiselm as well
+%     stepObj = stepwiselm(independedVariables, Y, 'VarNames', [independedVariableTexts dependedVariableText]);
+    
     bs = [stats.intercept;
                bs        ];
+    
+    for j = 1:length(finalmodel)  
+        if finalmodel(j) == 1
+            fprintf("Indicator [%s] used in model.\n", independedVariableTexts(j))
+        end
+    end
 
     y = x * (bs.*[1 finalmodel]');
     e = Y - y;
@@ -99,22 +107,22 @@ for i = 1
     k = sum(finalmodel);
     n = HeathrowData_rows_noNaN;
 
-    se2 = (1/(n - (k + 1)))*(sum(e.^2));  % error variance
-    R2 = 1 - (sum(e.^2))/(sum((Y - mean(Y)).^2));
-    adjR2 =1 - ((n - 1)/(n - (k + 1)))*(sum(e.^2))/(sum((Y - mean(Y)).^2));
-    fprintf("--> Error variance / Mean squared error = %f\n", se2);
+    se2 = (1/(n - (k + 1)))*(sum(e.^2));  % error variance == stepObj.MSE
+    R2 = 1 - (sum(e.^2))/(sum((Y - mean(Y)).^2)); % == stepObj.Rsquared.Ordinary
+    adjR2 =1 - ((n - 1)/(n - (k + 1)))*(sum(e.^2))/(sum((Y - mean(Y)).^2)); % == stepObj.Rsquared.Adjusted
+    fprintf("--> Error variance = %f\n", se2);
     fprintf("--> R2 = %f\n", R2);
     fprintf("--> adjR2 = %f\n", adjR2);
 
     alpha = 0.05;
     for j = 1:length(pval)
         if pval(j) < alpha && finalmodel(j) == 1 % if we got pvals from stepwiselm, finalmodel check is not needed
-            fprintf("---> Indicator's [%s] coeff. is statistically significant.\n", HeathrowINDICATORText_tmp(j));
+            fprintf("---> Indicator's [%s] coeff. is statistically significant.\n", independedVariableTexts(j));
         end
     end
     
     %% ============== (c') ==============
-    fprintf("\n[Dimension reduction regression model (LASSO)]\n")
+    fprintf("\n[ Dimension reduction regression model (LASSO) ]\n")
     % Centering the data
 %     xc = independedVariables - repmat(mean(independedVariables), HeathrowData_rows_noNaN, 1)
 %     yc = dependedVariable - mean(dependedVariable)
