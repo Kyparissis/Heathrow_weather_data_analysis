@@ -55,32 +55,21 @@ function [p1, p2, isContinuous] = Group69Exe1Fun1(sample)
         ylabel("Number of appearances");
         
         %% X^2 goodness-of-fit test that the sample comes from a population with a BINOMIAL distribution
-        [NumOfAppearances, DistinctVals] = groupcounts(sample);
         bins = 0:max(sample);
-        ObservedFreq = zeros(1, length(bins));
-        for i = 1:length(DistinctVals)
-            ObservedFreq(DistinctVals(i) + 1) = NumOfAppearances(i);
-        end
+        ObservedFreq = histcounts(sample, 0:max(sample)+1);
         NTrials = length(sample);
         p = mle(sample, 'distribution', 'Binomial', 'NTrials', NTrials);
         ExpectedFreq = NTrials*(binopdf(bins, NTrials, p));
         
-        [~, p1] = chi2gof(bins, 'Frequency', ObservedFreq, 'Expected', ExpectedFreq);
+        [~, p1] = chi2gof(bins, 'Ctrs', bins, 'Frequency', ObservedFreq, 'Expected', ExpectedFreq);
 
         %% X^2 goodness-of-fit test that the sample comes from a population with a DISCRETE UNIFORM distribution
-        [NumOfAppearances, DistinctVals] = groupcounts(sample);
-        bins = 0:max(sample);
-        ObservedFreq = zeros(1, length(bins));
-        for i = 1:length(DistinctVals)
-            ObservedFreq(DistinctVals(i) + 1) = NumOfAppearances(i);
-        end
-        NTrials = length(sample);
-        n = mle(sample, 'distribution', 'Discrete Uniform');
-        ExpectedFreq = NTrials*(unidpdf(bins, n));
+        ExpectedFreq = (sum(ObservedFreq) / length(bins)) * ones(1, length(bins));
         
-        [~, p2] = chi2gof(bins, 'Frequency', ObservedFreq, 'Expected', ExpectedFreq);
+        [~, p2] = chi2gof(bins, 'Ctrs', bins, 'Frequency', ObservedFreq, 'Expected', ExpectedFreq);
 
-        subtitle(sprintf("(Number of distinct values <= 10)\nBAR GRAPH\np_{1_{Binomial}} = %f and p_{2_{Disc. Unif.}} = %f", p1, p2));
+
+        subtitle(sprintf("(Number of distinct values <= 10)\nBAR GRAPH\np_{1_{Binomial}} = %f and p_{2_{Disc. Unif.}} = %e", p1, p2));
     end
 
 end
