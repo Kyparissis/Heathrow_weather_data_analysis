@@ -24,8 +24,8 @@ for i = 1:9     % Cheking for the first 9 indicators
 
     fprintf("       Indicator %d [%s]      \n", i, HeathrowINDICATORText(i));
     fprintf("==============================\n");
-    fprintf("p-value from the parametric (student) test = %e \n", p_parametric(i));
-    fprintf("p-value from the resampling (bootstrap) test = %e \n", p_bootstrap(i));
+    fprintf("p-value from the parametric (student) test = %f \n", p_parametric(i));
+    fprintf("p-value from the resampling (bootstrap) test = %f \n", p_bootstrap(i));
 
 
     fprintf("\n");
@@ -38,7 +38,10 @@ fprintf("-----------------------------------------------------------------\n");
 fprintf("=> Indicator with the smallest p(parametric) value is [%s] \n", HeathrowINDICATORText(min_p_parametricInd));
 fprintf("=> Indicator with the smallest p(bootstrap) value is [%s] \n", HeathrowINDICATORText(min_p_bootstrapInd));
 
-
+%% Conclusions and comments
+% TODO: THIS
+%>...
+%...
 % O deiktis pou tha exei thn megaliteri diafora stis dio periodous tha
 % einai autos me tin mikroteri pithanotita na exei diafora meswn timwn = 0,
 % dhladh o diktis me tis mikroteres times p.

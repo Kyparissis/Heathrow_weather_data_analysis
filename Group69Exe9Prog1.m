@@ -89,11 +89,11 @@ for i = 1:length(dependedVariableCol)
     x = [ones(HeathrowData_rows_noNaN, 1) independedVariables];
 
     % Calculate linear regression parameters
-    [bs, ~, pval, finalmodel, stats] = stepwisefit(independedVariables, Y, 'display', 'off'); % Could use stepwiselm as well
+    [bs_tmp, ~, pval, finalmodel, stats] = stepwisefit(independedVariables, Y, 'display', 'off'); % Could use stepwiselm as well
 %     stepObj = stepwiselm(independedVariables, Y, 'VarNames', [independedVariableTexts dependedVariableText]);
     
     bs = [stats.intercept;
-               bs        ];
+               bs_tmp    ];
     
     for j = 1:length(finalmodel)  
         if finalmodel(j) == 1
@@ -140,7 +140,11 @@ for i = 1:length(dependedVariableCol)
     fprintf("\n\n");
 end
 
-
+%% Conclusions and comments
+% TODO: THIS
+%>...
+%...
+% ...
 
 
 

@@ -25,7 +25,13 @@ for i = 1:length(HeathrowINDICATORText)
         % Console output:
         fprintf("  Depended Variable: [%s] -- Independed Variable: [%s]\n",dependedVariableText, HeathrowINDICATORText(i));
         fprintf("========================================================\n");
-        fprintf("adjR2 = %f\n", adjR2);
-        fprintf("p-value = %e\n\n", p);
+        fprintf("--> adjR2 = %f\n", adjR2);
+        fprintf("--> p-value = %e\n\n", p);
     end
 end
+
+%% Conclusions and comments
+% TODO: THIS
+%>...
+%...
+% ...

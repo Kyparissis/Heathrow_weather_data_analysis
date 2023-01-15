@@ -2,26 +2,37 @@
 % Kyparissis Kyparissis (University ID: 10346) (Email: kyparkypar@ece.auth.gr)
 % Fotios Alexandridis   (University ID:  9953) (Email: faalexandr@ece.auth.gr)
 
-function [p1, p2, isContinuous] = Group69Exe1Fun1(sample)     
-    sample = sample(~isnan(sample)); % Remove NaNs from sample
+function [p1, p2, isContinuous] = Group69Exe1Fun1(sample)  
+    %% Sample must be a vector
+    if ~isvector(sample)
+        error("ERROR FOUND! Sample must be a vector. Aborting...");
+    end
+    
+    %% Sample must be a column vector
+    if ~iscolumn(sample)
+        sample = sample';
+    end
+    
+    % Remove NaNs from sample
+    sample = sample(~isnan(sample)); 
     n = length(sample);
 
     % Calculate the number of unique / distinct values in the sample vector    
-    numberOfUniqueValues_sample = length(unique(sample));
+    numberOfUniqueValues = length(unique(sample));
 
-    if numberOfUniqueValues_sample > 10
+    if numberOfUniqueValues > 10
         isContinuous = 1; % It is treated as a continuous variable
         %% ============== (a') ==============
         % Create the histogram for the appropriate equal division
         figure;
-        histObj = histogram(sample);
+        histObj = histogram(sample, 'FaceColor', "#0072BD");
+        xlabel("Bins");
+        ylabel("Number of appearances");
         
         %% X^2 goodness-of-fit test that the sample comes from a population with a NORMAL distribution
-        % Might be correct
         [~, p1] = chi2gof(sample);
         
         %% X^2 goodness-of-fit test that the sample comes from a population with a UNIFORM distribution
-        % Might be correct
         params = mle(sample, 'distribution', 'Uniform'); % Maximum likelihood estimates
         a = params(1); % lower endpoint (minimum)
         b = params(2); % upper endpoint (maximum)
@@ -29,31 +40,47 @@ function [p1, p2, isContinuous] = Group69Exe1Fun1(sample)
         edges = linspace(a, b, nbins + 1); % edges of the bins
         Expected = n/nbins*ones(nbins,1); % expected value (equal for uniform dist)
 
-        [~,p2] = chi2gof(sample, 'Expected', Expected, 'Edges', edges);
+        [~, p2] = chi2gof(sample, 'Expected', Expected, 'Edges', edges);
         
-        subtitle(sprintf("(Num. of distinct values > 10) HISTOGRAM\np_{1_{Normal}} = %e | p_{2_{Contin. Unif.}} = %e", p1, p2));
-        xlabel("Bins");
-        ylabel("Number of appearances");
+
+        subtitle(sprintf("(Number of distinct values > 10)\nHISTOGRAM\np_{1_{Normal}} = %f and p_{2_{Contin. Unif.}} = %f", p1, p2));
     else % if numberOfUniqueValues_sample <= 10
         isContinuous = 0; % It is treated as a discrete variable
         %% ============== (b') ==============
         % Create the bar chart
         figure;
-        bar(sample);
-
-        p = sum(sample)/n;
-
-        % Perform the chi square goodness of fit test
-        [h,p1] = chi2gof(sample,'Ctrs',1:9,'Frequency',n,'Expected',n*p);
+        [NumOfAppearances, DistinctVals] = groupcounts(sample);
+        bar(DistinctVals, NumOfAppearances, 'FaceColor', "#EDB120");
+        xlabel("Sample's distinct/unique values");
+        ylabel("Number of appearances");
         
         %% X^2 goodness-of-fit test that the sample comes from a population with a BINOMIAL distribution
-        % false
+        [NumOfAppearances, DistinctVals] = groupcounts(sample);
+        bins = 0:max(sample);
+        ObservedFreq = zeros(1, length(bins));
+        for i = 1:length(DistinctVals)
+            ObservedFreq(DistinctVals(i) + 1) = NumOfAppearances(i);
+        end
+        NTrials = length(sample);
+        p = mle(sample, 'distribution', 'Binomial', 'NTrials', NTrials);
+        ExpectedFreq = NTrials*(binopdf(bins, NTrials, p));
         
+        [~, p1] = chi2gof(bins, 'Frequency', ObservedFreq, 'Expected', ExpectedFreq);
 
         %% X^2 goodness-of-fit test that the sample comes from a population with a DISCRETE UNIFORM distribution
-        p2 = NaN;
+        [NumOfAppearances, DistinctVals] = groupcounts(sample);
+        bins = 0:max(sample);
+        ObservedFreq = zeros(1, length(bins));
+        for i = 1:length(DistinctVals)
+            ObservedFreq(DistinctVals(i) + 1) = NumOfAppearances(i);
+        end
+        NTrials = length(sample);
+        n = mle(sample, 'distribution', 'Discrete Uniform');
+        ExpectedFreq = NTrials*(unidpdf(bins, n));
         
-        subtitle(sprintf("(Num. of distinct values <= 10) BAR GRAPH\np_{1_{Binomial}} = %e | p_{2_{Disc. Unif.}} = %e", p1, p2));
+        [~, p2] = chi2gof(bins, 'Frequency', ObservedFreq, 'Expected', ExpectedFreq);
+
+        subtitle(sprintf("(Number of distinct values <= 10)\nBAR GRAPH\np_{1_{Binomial}} = %f and p_{2_{Disc. Unif.}} = %f", p1, p2));
     end
 
 end

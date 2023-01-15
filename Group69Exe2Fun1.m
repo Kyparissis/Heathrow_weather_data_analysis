@@ -3,6 +3,16 @@
 % Fotios Alexandridis   (University ID:  9953) (Email: faalexandr@ece.auth.gr)
 
 function [parametricCI, bstrpCI] = Group69Exe2Fun1(sample)
+    %% Sample must be a vector
+    if ~isvector(sample)
+        error("ERROR FOUND! Sample must be a vector. Aborting...");
+    end
+    
+    %% Sample must be a column vector
+    if ~iscolumn(sample)
+        sample = sample';
+    end
+
     % Remove NaNs from the sample
     sample = sample(~isnan(sample));
     n = length(sample);

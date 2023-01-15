@@ -30,8 +30,8 @@ for i = 1:9
         
         fprintf("  Indicator %d [%s] and Indicator %d [%s] - [Pair #%d]   \n", i, HeathrowINDICATORText(i), j, HeathrowINDICATORText(j), pairID);
         fprintf("=======================================================\n");
-        fprintf("Fisher transform confidence interval: [%e %e]\n", paramFisherCI(1), paramFisherCI(2))
-        fprintf("Bootstrap confidence interval: [%e %e]\n", bstrpCI(1), bstrpCI(2))
+        fprintf("Fisher transform confidence interval: [%f %f]\n", paramFisherCI(1), paramFisherCI(2))
+        fprintf("Bootstrap confidence interval: [%f %f]\n", bstrpCI(1), bstrpCI(2))
         fprintf("p-value (H0: r == 0) from the parametric (student) test = %e \n", p_param(pairID));
         fprintf("p-value (H0: r == 0) from the randomization method non-parametric test = %e \n", p_nonParam(pairID));
         
@@ -71,6 +71,10 @@ fprintf("=> The 3 pairs with the smallest p(parametric) value are pairs: #%d #%d
 [p2s, pairsWithSmallest_p2] = mink(p_nonParam, 3);
 fprintf("=> The 3 pairs with the smallest p(non-parametric) value are pairs: #%d #%d and #%d\n", pairsWithSmallest_p2(1), pairsWithSmallest_p2(2), pairsWithSmallest_p2(3));
 
+%% Conclusions and comments
+% TODO: THIS
+%>...
+%...
 % ...
 % ...
 % Twra tha apanthsoume sto erwthma an symfwnoun oi 4 proseggiseis.

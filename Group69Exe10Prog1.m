@@ -18,7 +18,7 @@ HeathrowINDICATORText = string(HeathrowDataText(1, 2:HeathrowData_cols)); % Remo
 
 %% For depended variable FG
 dependedVariableText = "FG";
-dependedVariable = HeathrowINDICATORData(:, find(HeathrowINDICATORText == dependedVariableText));
+dependedVariable = HeathrowINDICATORData(:, HeathrowINDICATORText == dependedVariableText);
 independedVariablesColumns = find(HeathrowINDICATORText ~= "GR" &  HeathrowINDICATORText ~= "TN" & HeathrowINDICATORText ~= dependedVariableText);
 independedVariables = HeathrowINDICATORData(:, independedVariablesColumns);
 
@@ -40,7 +40,7 @@ end
 
 %% For depended variable GR
 dependedVariableText = "GR";
-dependedVariable = HeathrowINDICATORData(:, find(HeathrowINDICATORText == dependedVariableText));
+dependedVariable = HeathrowINDICATORData(:, HeathrowINDICATORText == dependedVariableText);
 independedVariablesColumns = find(HeathrowINDICATORText ~= "FG" &  HeathrowINDICATORText ~= "TN" & HeathrowINDICATORText ~= dependedVariableText);
 independedVariables = HeathrowINDICATORData(:, independedVariablesColumns);
 
@@ -60,3 +60,8 @@ else
     fprintf("---> LASSO found the optimal model with penalty = %f\n", LASSO_PenaltyFactor);
 end
 
+%% Conclusions and comments
+% TODO: THIS
+%>...
+%...
+% ...

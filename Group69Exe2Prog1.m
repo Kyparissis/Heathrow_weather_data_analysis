@@ -28,7 +28,7 @@ indexOf1973 = find(HeathrowData(:, 1) == 1973);
 HeathrowData_after1973 = HeathrowData(indexOf1973:HeathrowData_rows, :);
 HeathrowINDICATORData_after1973 = HeathrowData_after1973(:, 2:HeathrowData_cols); % Removing years column
 
-HeathrowINDICATORData_after1973_mean = mean(HeathrowINDICATORData_after1973, 1, 'omitnan');  % Mean across dimension 1 / mean of the elements in each column
+HeathrowINDICATORData_after1973_mean = mean(HeathrowINDICATORData_after1973, 1, 'omitnan'); 
 
 parametricCI = NaN(9, 2);
 bstrpCI = NaN(9, 2);
@@ -37,10 +37,10 @@ for i = 1:9   % Checking for the first 9 indicators
 
     fprintf("       Indicator %d [%s]      \n", i, HeathrowINDICATORText(i));
     fprintf("==============================\n")
-    fprintf("-> Mean value (1973-after) 95%% parametric confidence interval = [%e , %e]\n",parametricCI(i, 1), parametricCI(i, 2));
-    fprintf("-> Mean value (1973-after) 95%% bootstrap confidence interval = [%e , %e]\n",bstrpCI(i, 1), bstrpCI(i, 2));
-    fprintf("-> Mean value (1949-1958) = %e\n", HeathrowINDICATORData_1949_1958_mean(i));
-    fprintf("-> Mean value (1973-after) = %e\n", HeathrowINDICATORData_after1973_mean(i));
+    fprintf("-> Mean value (1973-after) 95%% parametric confidence interval = [%f , %f]\n",parametricCI(i, 1), parametricCI(i, 2));
+    fprintf("-> Mean value (1973-after) 95%% bootstrap confidence interval = [%f , %f]\n",bstrpCI(i, 1), bstrpCI(i, 2));
+    fprintf("-> Mean value (1949-1958) = %f\n", HeathrowINDICATORData_1949_1958_mean(i));
+    fprintf("-> Mean value (1973-after) = %f\n", HeathrowINDICATORData_after1973_mean(i));
 
     % Cheking if the indicator's mean value from the 1949-1958 period is in
     % either mean value confidence interval from the period 1973-after

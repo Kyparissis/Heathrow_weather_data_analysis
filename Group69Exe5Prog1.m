@@ -27,17 +27,22 @@ for i = 1:9
         [R, p_significance]  = corrcoef(X, Y);
         r = R(1, 2);
         p_significance = p_significance(1, 2);
-        fprintf("Pearson's correlation coeff. = %d\n", r);
-        fprintf("p-value (H0: r = 0) = %d\n", p_significance);
+        fprintf("Pearson's correlation coeff. = %f\n", r);
+        fprintf("p-value (H0: r = 0) = %f\n", p_significance);
 
         [mutualInfoEstimate, p, n] = Group69Exe5Fun1(HeathrowData(:, i + 1), HeathrowData(:, j + 1));
-        fprintf("Mutal Information I(X,Y) = %d\n", mutualInfoEstimate);
-        fprintf("p-value (Non-parametric test using the randomization method) (H0: I = 0) = %d\n", p);
+        fprintf("Mutal Information I(X,Y) = %f\n", mutualInfoEstimate);
+        fprintf("p-value (Non-parametric test using the randomization method) (H0: I = 0) = %f\n", p);
 
         fprintf("\n");
     end
 end
 
+%% Conclusions and comments
+% TODO: THIS
+%>...
+%...
+% ...
 % Pearson's correlation coefficient is a measure of the linear correlation between two variables, while mutual information 
 % is a measure of the amount of information shared between two variables. While both can be used to quantify the relationship 
 % between two variables, they do so in different ways and are therefore not directly comparable. Pearson's correlation 

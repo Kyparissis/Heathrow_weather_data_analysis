@@ -17,7 +17,9 @@ HeathrowDataText = readcell('Heathrow.xlsx');
 HeathrowINDICATORText = string(HeathrowDataText(1, 2:HeathrowData_cols)); % Removing years column and keeping 1st row 
 
 dependedVariableText = "FG";
-dependedVariable = HeathrowINDICATORData(:, find(HeathrowINDICATORText == dependedVariableText));
+dependedVariable = HeathrowINDICATORData(:, HeathrowINDICATORText == dependedVariableText);
+
+TypeOfModel_str = ["1st degree polyonymial" "2nd degree polyonymial" "3rd degree polyonymial" "Ln-transform"];
 for i = 1:length(HeathrowINDICATORText)
     if i ~= find(HeathrowINDICATORText == "TN") && i ~= find(HeathrowINDICATORText == dependedVariableText)
         [adjR2_Model(i), TypeOfModel(i)] = Group69Exe7Fun1(HeathrowINDICATORData(:, i), dependedVariable);
@@ -27,13 +29,16 @@ for i = 1:length(HeathrowINDICATORText)
         % Console output:
         fprintf("  Depended Variable: [%s] -- Independed Variable: [%s]\n",dependedVariableText, HeathrowINDICATORText(i));
         fprintf("========================================================\n");
-        fprintf("--> Best fitted by model #%d\n", TypeOfModel(i));
+        fprintf("--> Best fitted by model #%d (%s)\n", TypeOfModel(i), TypeOfModel_str(TypeOfModel(i)));
         fprintf("----> adjR2 = %f\n\n", adjR2_Model(i));
     end
 end
 
+%% Conclusions and comments
+% TODO: THIS
+%>...
+%...
 % ...
-%
 %   We can also see that some adjusted R square (adjR2) values are negative.
 % The formula for adjusted R square allows it to be negative. It is intended to approximate the actual percentage variance explained. 
 % So if the actual R square is close to zero the adjusted R square can be slightly negative and we think of it as an estimate of zero.

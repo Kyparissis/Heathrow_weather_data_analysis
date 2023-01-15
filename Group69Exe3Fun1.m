@@ -7,7 +7,13 @@ function [p_parametric, p_bootstrap] = Group69Exe3Fun1(years, indicatorSample)
     if ~(isvector(years) && isvector(indicatorSample))
         error("ERROR FOUND! Two samples must be vectors. Aborting...");
     end
-    
+
+    %% Both years and indicatorSample must have same length
+    % Since we want for each year to have it's indicator's value
+    if length(years) ~= length(indicatorSample)
+        error("ERROR FOUND! Each year must have an indicator value. Aborting...");
+    end
+
     %% Make both vector samples column vectors
     if ~iscolumn(years)
         years = years';

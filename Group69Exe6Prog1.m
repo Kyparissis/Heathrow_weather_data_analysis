@@ -37,12 +37,18 @@ for i = 1:length(HeathrowINDICATORText)
 end
 
 [maxR2s, maxR2s_inds] = maxk(R2, 2, 2); % maxR2s_inds is a 10x2 matrix, every row is a depended variable, columns are indicators' number/indexes
-                                        % maxk omits nans
+                                       
 for i = 1:size(R2, 1)
     if i ~= find(HeathrowINDICATORText == 'TN')
         fprintf("    Depended Variable: Indicator %d [%s]   \n", i, HeathrowINDICATORText(i));
         fprintf("===========================================\n");
-        fprintf("First biggest R2 is with with indep. var. Indicator %d [%s], R2 = %f\n", maxR2s_inds(i, 1), HeathrowINDICATORText(maxR2s_inds(i, 1)), maxR2s(i, 1));   
-        fprintf("Second biggest R2 is with with indep. var. Indicator %d [%s], R2 = %f\n\n", maxR2s_inds(i, 2), HeathrowINDICATORText(maxR2s_inds(i, 2)), maxR2s(i, 2));   
+        fprintf("First biggest R2 is with indep. var. Indicator %d [%s], R2 = %f\n", maxR2s_inds(i, 1), HeathrowINDICATORText(maxR2s_inds(i, 1)), maxR2s(i, 1));   
+        fprintf("Second biggest R2 is with indep. var. Indicator %d [%s], R2 = %f\n\n", maxR2s_inds(i, 2), HeathrowINDICATORText(maxR2s_inds(i, 2)), maxR2s(i, 2));   
     end
 end
+
+%% Conclusions and comments
+% TODO: THIS
+%>...
+%...
+% ...
