@@ -77,6 +77,7 @@ function [p_parametric, p_bootstrap] = Group69Exe3Fun1(years, indicatorSample)
     tmp_sample = [sample_X1; sample_X2];
 
     bootstrap_meanDiffs = zeros(NumOfBootstrapSamples + 1, 1);
+    % or bootstrap_meanDiffs = bootstrp(B, @mean, dataX) - bootstrp(B, @mean, dataY);
     for i=1:NumOfBootstrapSamples
         tmp_index = randi((sample_X1_length + sample_X2_length), (sample_X1_length + sample_X2_length), 1);
         tmp_data = tmp_sample(tmp_index);
@@ -85,13 +86,11 @@ function [p_parametric, p_bootstrap] = Group69Exe3Fun1(years, indicatorSample)
 
         bootstrap_meanDiffs(i) = mean(bootstap_samplesX1) - mean(bootstap_samplesX2);
     end
-    bootstrap_meanDiffs(NumOfBootstrapSamples+1) = mean(sample_X1) - mean(sample_X2);
+    bootstrap_meanDiffs(NumOfBootstrapSamples + 1) = mean(sample_X1) - mean(sample_X2);
 
     % Sort in ascending order
     bootstrap_meanDiffs = sort(bootstrap_meanDiffs);
-
     rank = find(bootstrap_meanDiffs == mean(sample_X1) - mean(sample_X2));
-
     % If all the values are identical, select the middle rank
     if length(rank) == NumOfBootstrapSamples + 1
         rank = round((NumOfBootstrapSamples + 1)/2);

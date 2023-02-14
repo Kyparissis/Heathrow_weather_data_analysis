@@ -31,6 +31,16 @@ for i = 1:9     % Cheking for the first 9 indicators
     fprintf("\n");
 end
 
+fprintf("\n  Indicators with  mean difference\n");
+fprintf("------------------------------------\n");
+fprintf("[According to parametric p-values]\n");
+rejectedH0_ind_param = find(p_parametric < 0.05);
+disp(HeathrowINDICATORText(rejectedH0_ind_param))
+fprintf("[According to bootstrap p-values]\n")
+rejectedH0_ind_boot = find(p_bootstrap < 0.05);
+disp(HeathrowINDICATORText(rejectedH0_ind_boot))
+
+
 fprintf("\n  Indicator with statistically most significant mean difference\n");
 fprintf("-----------------------------------------------------------------\n");
 [min_p_parametric, min_p_parametricInd] = min(p_parametric);
@@ -38,19 +48,26 @@ fprintf("-----------------------------------------------------------------\n");
 fprintf("=> Indicator with the smallest p(parametric) value is [%s] \n", HeathrowINDICATORText(min_p_parametricInd));
 fprintf("=> Indicator with the smallest p(bootstrap) value is [%s] \n", HeathrowINDICATORText(min_p_bootstrapInd));
 
-%% Conclusions and comments
-% TODO: THIS
-%>...
-%...
-% O deiktis pou tha exei thn megaliteri diafora stis dio periodous tha
-% einai autos me tin mikroteri pithanotita na exei diafora meswn timwn = 0,
-% dhladh o diktis me tis mikroteres times p.
-% Apofasizoume na orisoume significance level alpha = 0.05, dhladh opoia
+
+%%          Conclusions and comments
+% ==============================================
+%   Oi deiktes  oi opoioi tha exoun diafora stis meses times stis dyo
+% periodous tha einai autoi poy tha exoun poly mikri pithanothta gia
+% diafora meswn timwn ish me mhden
+% Etsi, apofasizoume na orisoume significance level alpha = 0.05, dhladh opoia
 % timh p einai mikroteri tou alpha, aporiptoume to null hypothesis tou
 % deikti ekeinou gia midenikh diafora meswn timwn
-% Vlepoume oti aporriptonai oi deiktes:
-% me ton deikti () na exei tin mikroteri timh p opote fainetai na einai
-% autos me thn megalyterh diafora stis dyo periodous.
-% Twra tha apanthsoume sto erwthma sxetika me to an symfwnoun oi 2 typoi
-% elegxou (parametriko kai epanadeigmatolipsias).
-% ...
+% Vlepoume oti aporriptonai oi deiktes: [T],[TM],[V],[RA],[TS],[FG] symfwna
+% me ton parametriko elegxo.
+% Aporripontai oi idioi diktes kai gia ton bootstrap elegxo.
+% Ara oi dyo typoi elegxou symfwnoun edw.
+%
+%   O deiktis pou fainetai na exei thn megalyterh diafora stis dyo periodous
+% tha einai autos me thn mikroteri timh elegxou p gia kathe elegxo
+% O deiktis me tin mikroteri p timh einai o [FG] gia ton parametriko elegxo alla kai gia ton
+% boostrap elegxo kai ara sympairenoume oti to apotelesma gia tous dyo
+% typous elegxou symfwnoun kai edw.
+%
+% Telos aksizei na shmeiwthei kai h periptwsh tou indicator [PP] opoy kai
+% stis dyo periptwseis phrame p = NaN. Auto symbainei dioti stin periodo
+% 1949 - 1958 den eixame katholou deigmata.

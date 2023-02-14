@@ -35,14 +35,16 @@ for i = 1:length(HeathrowINDICATORText)
 end
 
 %% Conclusions and comments
-% TODO: THIS
-%>...
-%...
-% ...
-%   We can also see that some adjusted R square (adjR2) values are negative.
+%   Enas diktis mporei na eksigisei ton dikti [FG] ean exei sxetika megali
+% timh R2, to opoio apotelei metro tou fitness.
+%   Oi diktes pou fainetai na exoun sxetika megalh timh (se sxesh kai me tous
+% ypoloipous) einai oi:
+% [T]: adjR2 = 0.2517 me to model tou Ln-transform (eggenhs grammiko modelo)
+% [RA]: adjR2 = 0.349 me to polyonimiko modelo 2ou vathmou.
+%   It is worth mentinioning that we can also see that some adjusted R square (adjR2) values are negative.
 % The formula for adjusted R square allows it to be negative. It is intended to approximate the actual percentage variance explained. 
 % So if the actual R square is close to zero the adjusted R square can be slightly negative and we think of it as an estimate of zero.
 % Keep in mind that adjusted R square is a model selection criterion, so neither its sign nor its magnitude have any statistical meaning (unlike R square). 
 % Low adjusted R square, whether negative or not, just tells you that the model is a poor fit.
-% 
+%  But always adjR2 <= R2!
 % ...

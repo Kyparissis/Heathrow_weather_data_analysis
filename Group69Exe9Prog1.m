@@ -79,7 +79,7 @@ for i = 1:length(dependedVariableCol)
     alpha = 0.05;
     for j = 2:length(pval) % Ignoring 1st pval since its for the intercept
         if pval(j) < alpha
-            fprintf("---> Indicator's [%s] coeff. is statistically significant.\n", independedVariableTexts(j - 1));
+            fprintf("---> Indicator's [%s] coeff. is statistically significant (p = %f).\n", independedVariableTexts(j - 1), pval(j));
         end
     end
 
@@ -109,34 +109,54 @@ for i = 1:length(dependedVariableCol)
 
     se2 = (1/(n - (k + 1)))*(sum(e.^2));  % error variance == stepObj.MSE
     R2 = 1 - (sum(e.^2))/(sum((Y - mean(Y)).^2)); % == stepObj.Rsquared.Ordinary
-    adjR2 =1 - ((n - 1)/(n - (k + 1)))*(sum(e.^2))/(sum((Y - mean(Y)).^2)); % == stepObj.Rsquared.Adjusted
+    adjR2 = 1 - ((n - 1)/(n - (k + 1)))*(sum(e.^2))/(sum((Y - mean(Y)).^2)); % == stepObj.Rsquared.Adjusted
     fprintf("--> Error variance = %f\n", se2);
     fprintf("--> R2 = %f\n", R2);
     fprintf("--> adjR2 = %f\n", adjR2);
 
+    % Significance test
+    % If greater than 0.05, term is not significant at the 5% significance level given the other terms in the model.
     alpha = 0.05;
     for j = 1:length(pval)
-        if pval(j) < alpha && finalmodel(j) == 1 % if we got pvals from stepwiselm, finalmodel check is not needed
-            fprintf("---> Indicator's [%s] coeff. is statistically significant.\n", independedVariableTexts(j));
+        if pval(j) < alpha && finalmodel(j) == 1
+            fprintf("---> Indicator's [%s] coeff. is statistically significant (p = %f).\n", independedVariableTexts(j), pval(j));
         end
     end
     
     %% ============== (c') ==============
-    fprintf("\n[ Dimension reduction regression model (LASSO) ]\n")
-    % Centering the data
-%     xc = independedVariables - repmat(mean(independedVariables), HeathrowData_rows_noNaN, 1)
-%     yc = dependedVariable - mean(dependedVariable)
+    fprintf("\n[ Principal Least Squares - PLS model ]\n")
+    x = independedVariables;
+    [n, p] = size(x);
     
-%     [bL, fitinfo] = lasso(independedVariables, dependedVariable);
-%     y_pred = xc*bL;
-%     lassoPlot(bL,fitinfo,'PlotType','Lambda','XScale','log');
-% 
-%     SSres = sum((y-y_pred).^2);
-%     SStot = sum((y-mean(y)).^2);
-%     R2 = 1 - SSres/SStot;
-%     p = size(X,2);
-%     adj_R2 = 1 - (1-R2)*(size(y,1)-1)/(size(y,1)-p-1);
+    d = 6; % latent variables
+    fprintf("Number of latent variables/components: %d\n", d);
+    [XL, YL, Xscores, Yscores, bPLS] = plsregress(x, Y, d);
 
+    yPLS = [ones(n, 1) x]*bPLS;
+    
+    TSS = sum((Y - mean(Y)).^2);
+    RSS = sum((Y - yPLS).^2);
+    R2 = 1 - RSS/TSS;
+    [~, m] = size(Xscores);
+    adjR2 = 1 - ((n - 1)/(n - (m + 1)))*(1 - R2);
+    se2 = (1/(n - (k + 1)))*(sum((Y - yPLS).^2));
+    fprintf("--> Error variance = %f\n", se2);
+    fprintf("--> R2 = %f\n", R2);
+    fprintf("--> adjR2 = %f\n", adjR2);
+
+    SE = sqrt(sum((Y - yPLS).^2)/(n- p -1))*sqrt(diag(inv([ones(n, 1) x]'*[ones(n, 1) x])));
+    tvals = bPLS./SE;
+    pval = 2*(1 - tcdf(abs(tvals), n - p - 1));
+    
+    % Significance test
+    % If greater than 0.05, term is not significant at the 5% significance level given the other terms in the model.
+    alpha = 0.05;
+    for j = 2:length(pval)
+        if pval(j) < alpha
+            fprintf("---> Indicator's [%s] coeff. is statistically significant (p = %f).\n", independedVariableTexts(j), pval(j));
+        end
+    end
+    
     fprintf("\n\n");
 end
 

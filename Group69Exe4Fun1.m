@@ -29,8 +29,8 @@ function [paramFisherCI, bstrpCI, p_param, p_nonParam, n] = Group69Exe4Fun1(samp
     sample2 = sample2(indexesToKeep);
     n = length(sample1); % == length(sample2)
 
-    r_rand = corrcoef(sample1, sample2);
-    r = r_rand(1, 2);
+    r = corrcoef(sample1, sample2);
+    r = r(1, 2);
 
     %% ============== (b') ==============
     %% Calculate the correlation coeff. (r) 95% confidence interval using the Fisher Transform
@@ -79,15 +79,29 @@ function [paramFisherCI, bstrpCI, p_param, p_nonParam, n] = Group69Exe4Fun1(samp
     %% Hypothesis test for H0: r=0 using the randomization method non-parametric test    
     numOfRandomizations = 2000;
     
-    r_rand = zeros(numOfRandomizations, 1);
+    r_rand = nan(1, numOfRandomizations + 1);
     for j = 1:numOfRandomizations
         tmp_R = corrcoef(sample1, sample2(randperm(n)));
         r_rand(j) = tmp_R(1,2);
     end
+    r_rand(numOfRandomizations + 1) = r;
     
-    % Calculate p-value
+    r_rand = sort(r_rand);
+    rank = find(r_rand == r);
+    % If all the values are identical, select the middle rank
+    if length(rank) == numOfRandomizations + 1
+        rank = round((numOfRandomizations + 1)/2);
+    elseif length(rank) >= 2
+        % If at least one bootstrap statistic is identical to the 
+        % original, pick the rank of one of them at random
+        rank = rank(unidrnd(length(rank)));
+    end
     % p-value represents the probability of observing a correlation coefficient as extreme or more extreme
-    % than the one observed in the original data, given that the null hypothesis (H0: r = 0) is true.
-    p_nonParam = sum(abs(r_rand) >= abs(r)) / numOfRandomizations;
+    % than the one observed in the original data, given that the null hypothesis is true.
+    if rank > 0.5*(numOfRandomizations + 1)
+        p_nonParam = 2*(1 - rank/(numOfRandomizations + 1));
+    else
+        p_nonParam = 2*rank/(numOfRandomizations + 1);
+    end
 
 end

@@ -20,69 +20,71 @@ HeathrowINDICATORText = string(HeathrowDataText(1, 2:HeathrowData_cols)); % Remo
 alpha = 0.05; % Significance level
 
 pairID = 0;  % Holds an ID for every pair we are gonna test
-% pairID2Indicators = nan(36, 2); % i-th line is the pair's ID, (i,1) and (i,2) are the 2 indicators of the pair
-
+paramFisherCI = nan(36, 2);
+bstrpCI = nan(36, 2);
+p_param = nan(1, 36);
+p_nonParam = nan(1, 36);
+isLinearCorr_FisherCI = zeros(1, 36);
+isLinearCorr_bootCI = zeros(1, 36);
+isLinearCorr_param_p = zeros(1, 36);
+isLinearCorr_nonParam_p = zeros(1, 36);
 for i = 1:9
     for j = (i + 1):9
         pairID = pairID + 1;
         
-        [paramFisherCI, bstrpCI, p_param(pairID), p_nonParam(pairID), n] = Group69Exe4Fun1(HeathrowData(:, i + 1), HeathrowData(:, j + 1));
+        [paramFisherCI(pairID, :), bstrpCI(pairID, :), p_param(pairID), p_nonParam(pairID), n] = Group69Exe4Fun1(HeathrowData(:, i + 1), HeathrowData(:, j + 1));
         
         fprintf("  Indicator %d [%s] and Indicator %d [%s] - [Pair #%d]   \n", i, HeathrowINDICATORText(i), j, HeathrowINDICATORText(j), pairID);
         fprintf("=======================================================\n");
-        fprintf("Fisher transform confidence interval: [%f %f]\n", paramFisherCI(1), paramFisherCI(2))
-        fprintf("Bootstrap confidence interval: [%f %f]\n", bstrpCI(1), bstrpCI(2))
-        fprintf("p-value (H0: r == 0) from the parametric (student) test = %e \n", p_param(pairID));
-        fprintf("p-value (H0: r == 0) from the randomization method non-parametric test = %e \n", p_nonParam(pairID));
+        fprintf("Fisher transform confidence interval: [%f %f]\n", paramFisherCI(pairID, 1), paramFisherCI(pairID, 2))
+        fprintf("Bootstrap confidence interval: [%f %f]\n", bstrpCI(pairID, 1), bstrpCI(pairID, 2))
+        fprintf("p-value (H0: r == 0) from the parametric (student) test = %f \n", p_param(pairID));
+        fprintf("p-value (H0: r == 0) from the randomization method non-parametric test = %f \n", p_nonParam(pairID));
         
         % Cheking if r = 0 exists in fisher transf. confidence interval
-        if ~(paramFisherCI(1) <= 0 && 0 <= paramFisherCI(2))
-            fprintf("--> r == 0 is NOT in Fisher Confidence Interval\n")
+        if ~(paramFisherCI(pairID, 1) <= 0 && 0 <= paramFisherCI(pairID, 2))
+            isLinearCorr_FisherCI(pairID) = 1;
         end
         % Cheking if r = 0 exists in bootstrap confidence interval
-        if ~(bstrpCI(1) <= 0 && 0 <= bstrpCI(2))
-            fprintf("--> r == 0 is NOT in bootstrap Confidence Interval\n")
+        if ~(bstrpCI(pairID, 1) <= 0 && 0 <= bstrpCI(pairID, 2))
+            isLinearCorr_bootCI(pairID) = 1;
         end
         % Cheking for rejection of H0: r=0 according to parametric p-value
         if p_param(pairID) < alpha
-            fprintf("--> p(parametric) < %.2f <=> Rejection of H0: r == 0 at this signif. level.\n", alpha)
+            isLinearCorr_param_p(pairID) = 1;
         end
         % Cheking for rejection of H0: r=0 according to non-parametric p-value
         if p_nonParam(pairID) < alpha
-            fprintf("--> p(non-parametric) < %.2f <=> Rejection of H0: r == 0 at this signif. level.\n", alpha)
+            isLinearCorr_nonParam_p(pairID) = 1;
         end
 
         fprintf("\n");
-
-        % Updating the pointer matrixes
-%         Indicators2pairID(i, j) = pairID;
-%         Indicators2pairID(j, i) = pairID;
-%         pairID2Indicators(pairID, :) = [i, j];
     end
 end
+
+fprintf("\n  Pairs with correlation\n");
+fprintf("--------------------------\n");
+fprintf("[According to Fisher transform confidence interval]\n")
+disp(find(isLinearCorr_FisherCI == 1));
+fprintf("[According to bootstrap confidence interval]\n")
+disp(find(isLinearCorr_bootCI == 1));
+fprintf("[According to parametric p-value]\n")
+disp(find(isLinearCorr_param_p == 1));
+fprintf("[According to non-parametric p-value]\n")
+disp(find(isLinearCorr_nonParam_p == 1));
 
 fprintf("\n  Pairs with statistically most significant correlation\n");
 fprintf("---------------------------------------------------------\n");
 % Find 3 smallest p1 values
 [p1s, pairsWithSmallest_p1] = mink(p_param, 3);
-fprintf("=> The 3 pairs with the smallest p(parametric) value are pairs: #%d #%d and #%d\n", pairsWithSmallest_p1(1), pairsWithSmallest_p1(2), pairsWithSmallest_p1(3));
-
+fprintf("=> The 3 pairs with the smallest p(parametric) value are pairs:");
+disp(pairsWithSmallest_p1)
 % Find 3 smallest p2 values
 [p2s, pairsWithSmallest_p2] = mink(p_nonParam, 3);
-fprintf("=> The 3 pairs with the smallest p(non-parametric) value are pairs: #%d #%d and #%d\n", pairsWithSmallest_p2(1), pairsWithSmallest_p2(2), pairsWithSmallest_p2(3));
+fprintf("=> The 3 pairs with the smallest p(non-parametric) value are pairs:");
+disp(pairsWithSmallest_p2)
 
-%% Conclusions and comments
-% TODO: THIS
-%>...
-%...
-% ...
-% ...
-% Twra tha apanthsoume sto erwthma an symfwnoun oi 4 proseggiseis.
-% Apo to console output vlepoume pws oi 4 prossegiseis kata pliopsifia
-% symfwnoyn metaksi tous, dhladh an aporriptoun to H0, tha to kanoun kai oi
-% 4 mazi.
-% Twra tha dhlwsoume ta 3 zeugh me thn statistika shmantiki sisxetisi me
-% vash tous 2 elegxous (parametriko kai tyxaiopoihshs).
-% Ta zeugh einai auta me ta 3 mikrotera p values, dhladh exoyn thn
-% mikroterh pithanothta na exoun r=0(mhdenikh sysxetisi)
-% Ta zeugh auta einai:
+
+%%          Conclusions and comments
+% ==============================================
+% 

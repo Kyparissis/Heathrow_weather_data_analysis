@@ -47,7 +47,7 @@ function [adjR2, p] = Group69Exe8Fun1(sample1, sample2)
     %% Randomization test (for adjR2) 
     numOfRandomizations = 2000;
     
-    adjR2_rand = nan(1, numOfRandomizations);
+    adjR2_rand = nan(1, numOfRandomizations + 1);
 
     for j = 1:numOfRandomizations
         sample1_rand = sample1;
@@ -64,12 +64,24 @@ function [adjR2, p] = Group69Exe8Fun1(sample1, sample2)
     
         adjR2_rand(j) = 1 - ((n - 1)/(n - (numOfVariables + 1)))*(sum(e_rand.^2))/(sum((sample2 - mean(sample2)).^2));
     end
-
-    % Calculate p-value
+    adjR2_rand(numOfRandomizations + 1) = adjR2;
+    adjR2_rand = sort(adjR2_rand);
+    rank = find(adjR2_rand == adjR2);
+    % If all the values are identical, select the middle rank
+    if length(rank) == numOfRandomizations + 1
+        rank = round((numOfRandomizations + 1)/2);
+    elseif length(rank) >= 2
+        % If at least one bootstrap statistic is identical to the 
+        % original, pick the rank of one of them at random
+        rank = rank(unidrnd(length(rank)));
+    end
     % p-value represents the probability of observing a correlation coefficient as extreme or more extreme
     % than the one observed in the original data, given that the null hypothesis (H0: r = 0) is true.
-    p = sum(adjR2_rand >= adjR2) / numOfRandomizations;
-
+    if rank > 0.5*(numOfRandomizations + 1)
+        p = 2*(1 - rank/(numOfRandomizations + 1));
+    else
+        p = 2*rank/(numOfRandomizations + 1);
+    end
 
 end
 

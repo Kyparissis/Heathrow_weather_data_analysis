@@ -17,7 +17,7 @@ HeathrowDataText = readcell('Heathrow.xlsx');
 HeathrowINDICATORText = string(HeathrowDataText(1, 2:HeathrowData_cols)); % Removing years column and keeping 1st row 
 
 dependedVariableText = "FG";
-dependedVariable = HeathrowINDICATORData(:, find(HeathrowINDICATORText == dependedVariableText));
+dependedVariable = HeathrowINDICATORData(:, HeathrowINDICATORText == dependedVariableText);
 for i = 1:length(HeathrowINDICATORText)
     if i ~= find(HeathrowINDICATORText == "TN") && i ~= find(HeathrowINDICATORText == dependedVariableText)
         [adjR2, p] = Group69Exe8Fun1(HeathrowINDICATORData(:, i), dependedVariable);
@@ -26,7 +26,7 @@ for i = 1:length(HeathrowINDICATORText)
         fprintf("  Depended Variable: [%s] -- Independed Variable: [%s]\n",dependedVariableText, HeathrowINDICATORText(i));
         fprintf("========================================================\n");
         fprintf("--> adjR2 = %f\n", adjR2);
-        fprintf("--> p-value = %e\n\n", p);
+        fprintf("--> p-value = %f\n\n", p);
     end
 end
 

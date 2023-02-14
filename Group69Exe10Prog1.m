@@ -33,9 +33,9 @@ for j = 1:length(OptimalModel_bin)
     end
 end
 if isempty(LASSO_PenaltyFactor)
-    fprintf("---> LASSO couldn't find the optimal model.\n")
+    fprintf("---> Optimal model can't be achieved by LASSO.\n")
 else
-    fprintf("---> LASSO found the optimal model with penalty = %f\n", LASSO_PenaltyFactor);
+    fprintf("---> Optimal model can be achieved by LASSO with lambda = %f\n", LASSO_PenaltyFactor);
 end
 
 %% For depended variable GR
@@ -55,9 +55,9 @@ for j = 1:length(OptimalModel_bin)
     end
 end
 if isempty(LASSO_PenaltyFactor)
-    fprintf("---> LASSO couldn't find the optimal model.\n")
+    fprintf("---> Optimal model can't be achieved by LASSO.\n")
 else
-    fprintf("---> LASSO found the optimal model with penalty = %f\n", LASSO_PenaltyFactor);
+    fprintf("---> Optimal model can be achieved by LASSO with lambda = %f\n", LASSO_PenaltyFactor);
 end
 
 %% Conclusions and comments

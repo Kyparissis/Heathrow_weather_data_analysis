@@ -73,14 +73,11 @@ function [mutualInfoEstimate, p, n] = Group69Exe5Fun1(sample1, sample2)
 
     %% ============== (c') ==============
     %% Non-parametric test using the randomization method
-    % TODO: Check correctness. Gives expected output but formula might be wrong?
     numOfRandomizations = 3000;
 
-    mutualInfoEstimate_rnd = nan(1, numOfRandomizations);
-    
+    mutualInfoEstimate_rnd = nan(1, numOfRandomizations + 1);
     for j = 1:numOfRandomizations
         ind = randperm(n);
-%         ind2 = randperm(n);
         % Discriminate both samples and make them "binary samples"
         sample1_discriminated = sample1 > median(sample1);
         sample2_discriminated = sample2(ind) > median(sample2(ind));
@@ -117,7 +114,21 @@ function [mutualInfoEstimate, p, n] = Group69Exe5Fun1(sample1, sample2)
         % Calculate the mutual information estimate
         mutualInfoEstimate_rnd(j) = H_S1 + H_S2 - H_S1S2;
     end
-    
-    p = sum(mutualInfoEstimate_rnd >= mutualInfoEstimate) / numOfRandomizations;
+    mutualInfoEstimate_rnd(numOfRandomizations + 1) = mutualInfoEstimate;
+    mutualInfoEstimate_rnd = sort(mutualInfoEstimate_rnd);
+    rank = find(mutualInfoEstimate_rnd == mutualInfoEstimate);
+    % If all the values are identical, select the middle rank
+    if length(rank) == numOfRandomizations + 1
+        rank = round((numOfRandomizations + 1)/2);
+    elseif length(rank) >= 2
+        % If at least one bootstrap statistic is identical to the 
+        % original, pick the rank of one of them at random
+        rank = rank(unidrnd(length(rank)));
+    end
+    if rank > 0.5*(numOfRandomizations + 1)
+        p = 2*(1 - rank/(numOfRandomizations + 1));
+    else
+        p = 2*rank/(numOfRandomizations + 1);
+    end
 
 end

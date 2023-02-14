@@ -56,7 +56,27 @@ for i = 1:9   % Checking for the first 9 indicators
     fprintf("\n");
 end
 
-%% Conclusions and comments
-% TODO: THIS
-%>...
+%%          Conclusions and comments
+% ==============================================
+%   Ta dyo diasthmata empistosynhs (parametriko kai boostrap) kai oi
+% oi meses times twn 2 periodwn ektipwnontai stin konsola.
+%   Epishs ektiponetai o elegxos an h mesh timh ths periodou tou 1949-1958
+% vrisketai sta dio diasthmata gia thn mesh timh ths periodou 1973-meta
+% Auto fainetai na isxuei gia tous indicators [Tm] kai [SN] kai malista
+% vlepoume oti ta apotelesmata gia ta dyo diasthmata empistosinis
+% symfwnoun.
+%
+%   Parathroume oti ta dyo diasthmata empistosinis (parametriko kai
+% bootstrap) den fainetai na diaferoun symantika gia kanena dikti kai
+% vlepoume pws dinoun paromoia apotelesmata me ena arketa mikro tolerance.
+%
+%   H mesh timh ths prwths periodou 1949 - 1958 fainetai na exei
+% allaksei sthn periodo 1973 - 2017 gia kapoious diktes. Oi diktes autoi
+% einai oi:
+% Indicator [FG]: Apo 108.9 se 29.97 (Poly symantiki allagh timhs)
+% Oi ypoloipoi deiktes den fainetai na exoyn shmantikh allagh meshs timhs
+% stis dyo periodous
+% Edw kzisei epishs na shmeiwthei kai h periptwsh tou Indicator [PP] opoy
+% Apo NaN se 624.89. Edw den eixame katholou deigmata gia th 1h periodo 
+% opote den mporoume na krinoume an eixame symantiki allagh meshs timhs.
 %...

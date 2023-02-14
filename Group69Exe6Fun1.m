@@ -54,6 +54,7 @@ function R2 = Group69Exe6Fun1(sample1, sample2)
     % Plot the estimated line
     plot(x0, y0, 'LineWidth', 2, 'Color', "#D95319");
     % Show R2 as text on plot
-    text(max(xlim), max(ylim), sprintf("R^2 = %f", R2), 'Horiz', 'right', 'Vert', 'middle')
+    ax = axis;
+    text(ax(2)-0.05*(ax(2)-ax(1)),ax(4)-0.15*(ax(4)-ax(3)), sprintf("R^2 = %f", R2), 'Horiz', 'right', 'Vert', 'middle')
 
 end
