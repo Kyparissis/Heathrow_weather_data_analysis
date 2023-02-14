@@ -64,6 +64,7 @@ function [adjR2, p] = Group69Exe8Fun1(sample1, sample2)
     
         adjR2_rand(j) = 1 - ((n - 1)/(n - (numOfVariables + 1)))*(sum(e_rand.^2))/(sum((sample2 - mean(sample2)).^2));
     end
+    
     adjR2_rand(numOfRandomizations + 1) = adjR2;
     adjR2_rand = sort(adjR2_rand);
     rank = find(adjR2_rand == adjR2);

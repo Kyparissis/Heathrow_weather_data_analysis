@@ -36,10 +36,10 @@ for i = 1:9
         
         fprintf("  Indicator %d [%s] and Indicator %d [%s] - [Pair #%d]   \n", i, HeathrowINDICATORText(i), j, HeathrowINDICATORText(j), pairID);
         fprintf("=======================================================\n");
-        fprintf("Fisher transform confidence interval: [%f %f]\n", paramFisherCI(pairID, 1), paramFisherCI(pairID, 2))
-        fprintf("Bootstrap confidence interval: [%f %f]\n", bstrpCI(pairID, 1), bstrpCI(pairID, 2))
-        fprintf("p-value (H0: r == 0) from the parametric (student) test = %f \n", p_param(pairID));
-        fprintf("p-value (H0: r == 0) from the randomization method non-parametric test = %f \n", p_nonParam(pairID));
+        fprintf("Fisher transform confidence interval: [%g , %g]\n", paramFisherCI(pairID, 1), paramFisherCI(pairID, 2))
+        fprintf("Bootstrap confidence interval: [%g , %g]\n", bstrpCI(pairID, 1), bstrpCI(pairID, 2))
+        fprintf("p-value (H0: r == 0) from the parametric (student) test = %g \n", p_param(pairID));
+        fprintf("p-value (H0: r == 0) from the randomization method non-parametric test = %g \n", p_nonParam(pairID));
         
         % Cheking if r = 0 exists in fisher transf. confidence interval
         if ~(paramFisherCI(pairID, 1) <= 0 && 0 <= paramFisherCI(pairID, 2))

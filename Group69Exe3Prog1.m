@@ -24,8 +24,8 @@ for i = 1:9     % Cheking for the first 9 indicators
 
     fprintf("       Indicator %d [%s]      \n", i, HeathrowINDICATORText(i));
     fprintf("==============================\n");
-    fprintf("p-value from the parametric (student) test = %f \n", p_parametric(i));
-    fprintf("p-value from the resampling (bootstrap) test = %f \n", p_bootstrap(i));
+    fprintf("p-value from the parametric (student) test = %g \n", p_parametric(i));
+    fprintf("p-value from the resampling (bootstrap) test = %g \n", p_bootstrap(i));
 
 
     fprintf("\n");

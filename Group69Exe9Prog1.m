@@ -69,9 +69,9 @@ for i = 1:length(dependedVariableCol)
     se2 = (1/(n - (k + 1)))*sum(e.^2); % error variance == stats(4) == lmObj.MSE
     R2 = 1 - (sum(e.^2))/(sum((Y - mean(Y)).^2)); % == stats(1) == lmObj.Rsquared.Ordinary
     adjR2 = 1 - ((n - 1)/(n - (k + 1)))*(sum(e.^2))/(sum((Y - mean(Y)).^2)); % == lmObj.Rsquared.Adjusted
-    fprintf("--> Error variance = %f\n", se2);
-    fprintf("--> R2 = %f\n", R2);
-    fprintf("--> adjR2 = %f\n", adjR2);
+    fprintf("--> Error variance = %g\n", se2);
+    fprintf("--> R2 = %g\n", R2);
+    fprintf("--> adjR2 = %g\n", adjR2);
     
     % Significance test
     % If greater than 0.05, term is not significant at the 5% significance level given the other terms in the model.
@@ -79,7 +79,7 @@ for i = 1:length(dependedVariableCol)
     alpha = 0.05;
     for j = 2:length(pval) % Ignoring 1st pval since its for the intercept
         if pval(j) < alpha
-            fprintf("---> Indicator's [%s] coeff. is statistically significant (p = %f).\n", independedVariableTexts(j - 1), pval(j));
+            fprintf("---> Indicator's [%s] coeff. is statistically significant (p = %g).\n", independedVariableTexts(j - 1), pval(j));
         end
     end
 
@@ -110,16 +110,16 @@ for i = 1:length(dependedVariableCol)
     se2 = (1/(n - (k + 1)))*(sum(e.^2));  % error variance == stepObj.MSE
     R2 = 1 - (sum(e.^2))/(sum((Y - mean(Y)).^2)); % == stepObj.Rsquared.Ordinary
     adjR2 = 1 - ((n - 1)/(n - (k + 1)))*(sum(e.^2))/(sum((Y - mean(Y)).^2)); % == stepObj.Rsquared.Adjusted
-    fprintf("--> Error variance = %f\n", se2);
-    fprintf("--> R2 = %f\n", R2);
-    fprintf("--> adjR2 = %f\n", adjR2);
+    fprintf("--> Error variance = %g\n", se2);
+    fprintf("--> R2 = %g\n", R2);
+    fprintf("--> adjR2 = %g\n", adjR2);
 
     % Significance test
     % If greater than 0.05, term is not significant at the 5% significance level given the other terms in the model.
     alpha = 0.05;
     for j = 1:length(pval)
         if pval(j) < alpha && finalmodel(j) == 1
-            fprintf("---> Indicator's [%s] coeff. is statistically significant (p = %f).\n", independedVariableTexts(j), pval(j));
+            fprintf("---> Indicator's [%s] coeff. is statistically significant (p = %g).\n", independedVariableTexts(j), pval(j));
         end
     end
     
@@ -140,9 +140,9 @@ for i = 1:length(dependedVariableCol)
     [~, m] = size(Xscores);
     adjR2 = 1 - ((n - 1)/(n - (m + 1)))*(1 - R2);
     se2 = (1/(n - (k + 1)))*(sum((Y - yPLS).^2));
-    fprintf("--> Error variance = %f\n", se2);
-    fprintf("--> R2 = %f\n", R2);
-    fprintf("--> adjR2 = %f\n", adjR2);
+    fprintf("--> Error variance = %g\n", se2);
+    fprintf("--> R2 = %g\n", R2);
+    fprintf("--> adjR2 = %g\n", adjR2);
 
     SE = sqrt(sum((Y - yPLS).^2)/(n- p -1))*sqrt(diag(inv([ones(n, 1) x]'*[ones(n, 1) x])));
     tvals = bPLS./SE;
@@ -153,7 +153,7 @@ for i = 1:length(dependedVariableCol)
     alpha = 0.05;
     for j = 2:length(pval)
         if pval(j) < alpha
-            fprintf("---> Indicator's [%s] coeff. is statistically significant (p = %f).\n", independedVariableTexts(j), pval(j));
+            fprintf("---> Indicator's [%s] coeff. is statistically significant (p = %g).\n", independedVariableTexts(j), pval(j));
         end
     end
     

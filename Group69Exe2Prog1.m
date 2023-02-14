@@ -37,10 +37,10 @@ for i = 1:9   % Checking for the first 9 indicators
 
     fprintf("       Indicator %d [%s]      \n", i, HeathrowINDICATORText(i));
     fprintf("==============================\n")
-    fprintf("-> Mean value (1973-after) 95%% parametric confidence interval = [%f , %f]\n",parametricCI(i, 1), parametricCI(i, 2));
-    fprintf("-> Mean value (1973-after) 95%% bootstrap confidence interval = [%f , %f]\n",bstrpCI(i, 1), bstrpCI(i, 2));
-    fprintf("-> Mean value (1949-1958) = %f\n", HeathrowINDICATORData_1949_1958_mean(i));
-    fprintf("-> Mean value (1973-after) = %f\n", HeathrowINDICATORData_after1973_mean(i));
+    fprintf("-> Mean value (1973-after) 95%% parametric confidence interval = [%g , %g]\n",parametricCI(i, 1), parametricCI(i, 2));
+    fprintf("-> Mean value (1973-after) 95%% bootstrap confidence interval = [%g , %g]\n",bstrpCI(i, 1), bstrpCI(i, 2));
+    fprintf("-> Mean value (1949-1958) = %g\n", HeathrowINDICATORData_1949_1958_mean(i));
+    fprintf("-> Mean value (1973-after) = %g\n", HeathrowINDICATORData_after1973_mean(i));
 
     % Cheking if the indicator's mean value from the 1949-1958 period is in
     % either mean value confidence interval from the period 1973-after

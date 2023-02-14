@@ -42,8 +42,8 @@ for i = 1:size(R2, 1)
     if i ~= find(HeathrowINDICATORText == 'TN')
         fprintf("    Depended Variable: Indicator %d [%s]   \n", i, HeathrowINDICATORText(i));
         fprintf("===========================================\n");
-        fprintf("First biggest R2 is with indep. var. Indicator %d [%s], R2 = %f\n", maxR2s_inds(i, 1), HeathrowINDICATORText(maxR2s_inds(i, 1)), maxR2s(i, 1));   
-        fprintf("Second biggest R2 is with indep. var. Indicator %d [%s], R2 = %f\n\n", maxR2s_inds(i, 2), HeathrowINDICATORText(maxR2s_inds(i, 2)), maxR2s(i, 2));   
+        fprintf("First biggest R2 is with indep. var. Indicator %d [%s], R2 = %g\n", maxR2s_inds(i, 1), HeathrowINDICATORText(maxR2s_inds(i, 1)), maxR2s(i, 1));   
+        fprintf("Second biggest R2 is with indep. var. Indicator %d [%s], R2 = %g\n\n", maxR2s_inds(i, 2), HeathrowINDICATORText(maxR2s_inds(i, 2)), maxR2s(i, 2));   
     end
 end
 

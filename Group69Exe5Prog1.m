@@ -27,13 +27,13 @@ for i = 1:9
         [R, p_significance]  = corrcoef(X, Y);
         r = R(1, 2);
         p_significance = p_significance(1, 2);
-        fprintf("Pearson's correlation coeff. = %f\n", r);
-        fprintf("p-value (H0: r = 0) = %f\n", p_significance);
+        fprintf("Pearson's correlation coeff. = %g\n", r);
+        fprintf("p-value (H0: r = 0) = %g\n", p_significance);
         
         % Call the function of this subquestion
         [mutualInfoEstimate, p, n] = Group69Exe5Fun1(HeathrowData(:, i + 1), HeathrowData(:, j + 1));
-        fprintf("Mutal Information I(X,Y) = %f\n", mutualInfoEstimate);
-        fprintf("p-value (Non-parametric test using the randomization method) (H0: I = 0) = %f\n", p);
+        fprintf("Mutal Information I(X,Y) = %g\n", mutualInfoEstimate);
+        fprintf("p-value (Non-parametric test using the randomization method) (H0: I = 0) = %g\n", p);
 
         fprintf("\n");
     end

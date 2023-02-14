@@ -35,7 +35,7 @@ end
 if isempty(LASSO_PenaltyFactor)
     fprintf("---> Optimal model can't be achieved by LASSO.\n")
 else
-    fprintf("---> Optimal model can be achieved by LASSO with lambda = %f\n", LASSO_PenaltyFactor);
+    fprintf("---> Optimal model can be achieved by LASSO with lambda = %g\n", LASSO_PenaltyFactor);
 end
 
 %% For depended variable GR
@@ -57,7 +57,7 @@ end
 if isempty(LASSO_PenaltyFactor)
     fprintf("---> Optimal model can't be achieved by LASSO.\n")
 else
-    fprintf("---> Optimal model can be achieved by LASSO with lambda = %f\n", LASSO_PenaltyFactor);
+    fprintf("---> Optimal model can be achieved by LASSO with lambda = %g\n", LASSO_PenaltyFactor);
 end
 
 %% Conclusions and comments

@@ -43,7 +43,7 @@ function [p1, p2, isContinuous] = Group69Exe1Fun1(sample)
         [~, p2] = chi2gof(sample, 'Expected', Expected, 'Edges', edges);
         
 
-        subtitle(sprintf("(Number of distinct values > 10)\nHISTOGRAM\np_{1_{Normal}} = %f and p_{2_{Contin. Unif.}} = %f", p1, p2));
+        subtitle(sprintf("(Number of distinct values > 10)\nHISTOGRAM\np_{1_{Normal}} = %g and p_{2_{Contin. Unif.}} = %g", p1, p2));
     else % if numberOfUniqueValues_sample <= 10
         isContinuous = 0; % It is treated as a discrete variable
         %% ============== (b') ==============
@@ -69,7 +69,7 @@ function [p1, p2, isContinuous] = Group69Exe1Fun1(sample)
         [~, p2, stats] = chi2gof(bins, 'Ctrs', bins, 'Frequency', ObservedFreq, 'Expected', ExpectedFreq, 'NParams', 0);
        
         
-        subtitle(sprintf("(Number of distinct values <= 10)\nBAR GRAPH\np_{1_{Binomial}} = %f and p_{2_{Disc. Unif.}} = %f", p1, p2));
+        subtitle(sprintf("(Number of distinct values <= 10)\nBAR GRAPH\np_{1_{Binomial}} = %g and p_{2_{Disc. Unif.}} = %g", p1, p2));
     end
 
 end
