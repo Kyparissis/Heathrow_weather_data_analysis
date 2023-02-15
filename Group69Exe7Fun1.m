@@ -50,8 +50,10 @@ function [adjR2_Model, TypeOfModel] = Group69Exe7Fun1(sample1, sample2)
 
     y = x * b;  % Predicted values
     e = Y - y;  % Error
-
+    
+    % Calculate the adjusted R-squared statistic
     adjR2(1) = 1 - ((n - 1)/(n - (numOfVariables + 1)))*(sum(e.^2))/(sum((sample2 - mean(sample2)).^2));
+    % Show adjR2 as text on plot
     ax = axis;
     text(ax(2)-0.05*(ax(2)-ax(1)),ax(4)-0.15*(ax(4)-ax(3)), sprintf("adjR^2 = %g", adjR2(1)), 'Horiz','right', 'Vert', 'cap');
 
@@ -76,8 +78,10 @@ function [adjR2_Model, TypeOfModel] = Group69Exe7Fun1(sample1, sample2)
     
     y = x * b;  % Predicted values
     e = Y - y;  % Error
-
+    
+    % Calculate the adjusted R-squared statistic
     adjR2(2) = 1 - ((n - 1)/(n - (numOfVariables + 1)))*(sum(e.^2))/(sum((sample2 - mean(sample2)).^2));
+    % Show adjR2 as text on plot
     ax = axis;
     text(ax(2)-0.05*(ax(2)-ax(1)),ax(4)-0.15*(ax(4)-ax(3)), sprintf("adjR^2 = %g", adjR2(2)), 'Horiz','right', 'Vert', 'cap');
 
@@ -103,7 +107,9 @@ function [adjR2_Model, TypeOfModel] = Group69Exe7Fun1(sample1, sample2)
     y = x * b;  % Predicted values
     e = Y - y;  % Error
 
+    % Calculate the adjusted R-squared statistic
     adjR2(3) = 1 - ((n - 1)/(n - (numOfVariables + 1)))*(sum(e.^2))/(sum((sample2 - mean(sample2)).^2));
+    % Show adjR2 as text on plot
     ax = axis;
     text(ax(2)-0.05*(ax(2)-ax(1)),ax(4)-0.15*(ax(4)-ax(3)), sprintf("adjR^2 = %g", adjR2(3)), 'Horiz','right', 'Vert', 'cap');
 
@@ -125,7 +131,9 @@ function [adjR2_Model, TypeOfModel] = Group69Exe7Fun1(sample1, sample2)
     
     e = Y - y;  % Error
 
+    % Calculate the adjusted R-squared statistic
     adjR2(4) = 1 - ((n - 1)/(n - 2))*(sum(e.^2))/(sum((Y - mean(Y)).^2));
+    % Show adjR2 as text on plot
     ax = axis;
     text(ax(2)-0.05*(ax(2)-ax(1)),ax(4)-0.15*(ax(4)-ax(3)), sprintf("adjR^2 = %g", adjR2(4)), 'Horiz','right', 'Vert', 'cap');
 

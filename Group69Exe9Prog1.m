@@ -31,7 +31,6 @@ rowsWithNaN = any(isnan(HeathrowData), 2);
 HeathrowData(rowsWithNaN, :) = [];
 [HeathrowData_rows_noNaN, HeathrowData_cols_noNaN] = size(HeathrowData);
 
-%% For [FG] Indicator
 dependedVariableCol = [find(HeathrowINDICATORText == "FG") find(HeathrowINDICATORText == "GR")];
 for i = 1:length(dependedVariableCol)
     % Getting dependedVariable column
@@ -54,14 +53,14 @@ for i = 1:length(dependedVariableCol)
     x = [ones(HeathrowData_rows_noNaN, 1) independedVariables];
 
     % Calculate linear regression parameters
-    [b, ~, ~, ~, stats] = regress(Y, x);
+    b = regress(Y, x);
    
     % Used to get the pvals
     % We don't need to insert ones(HeathrowData_rows_noNaN, 1) col here
     lmObj = fitlm(independedVariables, Y, 'VarNames', [independedVariableTexts dependedVariableText]); 
    
-    y = x * b;
-    e = Y - y;
+    y = x * b; % Predicted values
+    e = Y - y; % Error
 
     k = size(independedVariables, 2);
     n = HeathrowData_rows_noNaN;
@@ -69,7 +68,7 @@ for i = 1:length(dependedVariableCol)
     se2 = (1/(n - (k + 1)))*sum(e.^2); % error variance == stats(4) == lmObj.MSE
     R2 = 1 - (sum(e.^2))/(sum((Y - mean(Y)).^2)); % == stats(1) == lmObj.Rsquared.Ordinary
     adjR2 = 1 - ((n - 1)/(n - (k + 1)))*(sum(e.^2))/(sum((Y - mean(Y)).^2)); % == lmObj.Rsquared.Adjusted
-    fprintf("--> Error variance = %g\n", se2);
+    fprintf("--> Error residual = %g\n", se2);
     fprintf("--> R2 = %g\n", R2);
     fprintf("--> adjR2 = %g\n", adjR2);
     
@@ -79,7 +78,7 @@ for i = 1:length(dependedVariableCol)
     alpha = 0.05;
     for j = 2:length(pval) % Ignoring 1st pval since its for the intercept
         if pval(j) < alpha
-            fprintf("---> Indicator's [%s] coeff. is statistically significant (p = %g).\n", independedVariableTexts(j - 1), pval(j));
+            fprintf("---> Indicator's [%s] coeff. is statistically significant (NullModel: p = %g).\n", independedVariableTexts(j - 1), pval(j));
         end
     end
 
@@ -90,27 +89,27 @@ for i = 1:length(dependedVariableCol)
 
     % Calculate linear regression parameters
     [bs_tmp, ~, pval, finalmodel, stats] = stepwisefit(independedVariables, Y, 'display', 'off'); % Could use stepwiselm as well
-%     stepObj = stepwiselm(independedVariables, Y, 'VarNames', [independedVariableTexts dependedVariableText]);
     
     bs = [stats.intercept;
                bs_tmp    ];
     
+    % Find indicators in used in the final model
     for j = 1:length(finalmodel)  
         if finalmodel(j) == 1
             fprintf("Indicator [%s] used in model.\n", independedVariableTexts(j))
         end
     end
 
-    y = x * (bs.*[1 finalmodel]');
-    e = Y - y;
+    y = x * (bs.*[1 finalmodel]'); % Predicted values
+    e = Y - y; % Error
 
     k = sum(finalmodel);
     n = HeathrowData_rows_noNaN;
 
-    se2 = (1/(n - (k + 1)))*(sum(e.^2));  % error variance == stepObj.MSE
-    R2 = 1 - (sum(e.^2))/(sum((Y - mean(Y)).^2)); % == stepObj.Rsquared.Ordinary
-    adjR2 = 1 - ((n - 1)/(n - (k + 1)))*(sum(e.^2))/(sum((Y - mean(Y)).^2)); % == stepObj.Rsquared.Adjusted
-    fprintf("--> Error variance = %g\n", se2);
+    se2 = (1/(n - (k + 1)))*(sum(e.^2));  % error variance/residual
+    R2 = 1 - (sum(e.^2))/(sum((Y - mean(Y)).^2)); 
+    adjR2 = 1 - ((n - 1)/(n - (k + 1)))*(sum(e.^2))/(sum((Y - mean(Y)).^2));
+    fprintf("--> Error residual = %g\n", se2);
     fprintf("--> R2 = %g\n", R2);
     fprintf("--> adjR2 = %g\n", adjR2);
 
@@ -119,7 +118,7 @@ for i = 1:length(dependedVariableCol)
     alpha = 0.05;
     for j = 1:length(pval)
         if pval(j) < alpha && finalmodel(j) == 1
-            fprintf("---> Indicator's [%s] coeff. is statistically significant (p = %g).\n", independedVariableTexts(j), pval(j));
+            fprintf("---> Indicator's [%s] coeff. is statistically significant (NullModel: p = %g).\n", independedVariableTexts(j), pval(j));
         end
     end
     
@@ -128,7 +127,7 @@ for i = 1:length(dependedVariableCol)
     x = independedVariables;
     [n, p] = size(x);
     
-    d = 6; % latent variables
+    d = 5; % latent variables
     fprintf("Number of latent variables/components: %d\n", d);
     [XL, YL, Xscores, Yscores, bPLS] = plsregress(x, Y, d);
 
@@ -137,23 +136,23 @@ for i = 1:length(dependedVariableCol)
     TSS = sum((Y - mean(Y)).^2);
     RSS = sum((Y - yPLS).^2);
     R2 = 1 - RSS/TSS;
-    [~, m] = size(Xscores);
-    adjR2 = 1 - ((n - 1)/(n - (m + 1)))*(1 - R2);
-    se2 = (1/(n - (k + 1)))*(sum((Y - yPLS).^2));
-    fprintf("--> Error variance = %g\n", se2);
+    adjR2 = 1 - ((n - 1)/(n - (d + 1)))*(1 - R2);
+    se2 = (1/(n - (d + 1)))*(sum((Y - yPLS).^2));
+    fprintf("--> Error residual = %g\n", se2);
     fprintf("--> R2 = %g\n", R2);
     fprintf("--> adjR2 = %g\n", adjR2);
 
-    SE = sqrt(sum((Y - yPLS).^2)/(n- p -1))*sqrt(diag(inv([ones(n, 1) x]'*[ones(n, 1) x])));
-    tvals = bPLS./SE;
-    pval = 2*(1 - tcdf(abs(tvals), n - p - 1));
+    se = sqrt(se2);
+    tvals = bPLS./se;
+    df = n - p - 1; % degrees of freedom
+    pval = 2*(1 - tcdf(abs(tvals), df));
     
     % Significance test
     % If greater than 0.05, term is not significant at the 5% significance level given the other terms in the model.
     alpha = 0.05;
     for j = 2:length(pval)
         if pval(j) < alpha
-            fprintf("---> Indicator's [%s] coeff. is statistically significant (p = %g).\n", independedVariableTexts(j), pval(j));
+            fprintf("---> Indicator's [%s] coeff. is statistically significant (NullModel: p = %g).\n", independedVariableTexts(j), pval(j));
         end
     end
     

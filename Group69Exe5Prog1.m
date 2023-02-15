@@ -39,13 +39,17 @@ for i = 1:9
     end
 end
 
-%% Conclusions and comments
-% TODO: THIS
-%>...
-%...
+%%          Conclusions and comments
+% ==============================================
+%    O syntelestis sysxetisis pearson einai ena metro ths grammikhs
+% sysxetisis dyo metavlitwn enw h amoivaia plhroforia einai ena metro
+% tou ogkou twn plhroforiwn pou moirazontai dyo metavlhtes. Enw kai ta
+% dyo mporoun na xrhsimopoithoun gia thn posotikopoihhsh ths sxeshs
+% metaksi dyo metavlitwn, to kanoyn me diaforetikous tropous kai
+% epomenws den einai amesa sygkrisimes. O syntelestis sysxetisis pearson
+% metra thn isxu kai thn kateuthinsi mias grammikhs sxeshs enw h
+% amoivaia plhroforia metra thn meiwsh ths avevaiothtas gia th mia
+% metavliti dedomenhs gnwshs ths allhs.
+%   Den egine epilogh apo zeygh diktwn poy mporei na exoun mh grammikh
+% sysxetisi alla egine elegxos gia ola ta zeugh twn diktwn.
 % ...
-% Pearson's correlation coefficient is a measure of the linear correlation between two variables, while mutual information 
-% is a measure of the amount of information shared between two variables. While both can be used to quantify the relationship 
-% between two variables, they do so in different ways and are therefore not directly comparable. Pearson's correlation 
-% coefficient measures the strength and direction of a linear relationship, while mutual information measures the reduction in 
-% uncertainty about one variable given knowledge of the other.

@@ -87,4 +87,25 @@ disp(pairsWithSmallest_p2)
 
 %%          Conclusions and comments
 % ==============================================
-% 
+%   Sthn konsola fainetai o orismos toy kathe zeugous me enan auksonta arithmo.
+%   Gia na vroume poia zeugh deiktwn exoun grammiki sysxetisi symfwna me to
+%  parametriko h kai bootstrap diasthmata empistosinis, tha vroume se poia
+%  apo auta ta diasthmata den anhkei h timh 0. Sthn konsola ektiponontai ta
+%  zeugh auta.
+%   Gia na vroume poia zeugh deiktwn exoun grammikh sysxetisi symfwna me
+%  tous parametrikous kai elegxous tyxaiopoihshs, tha elegksoume poies
+%  times p einai mikroteres apo to epipedo shmantikothtas alpha etsi wste
+%  na mporesoume na aporipsoume to null hypothesis gia r = 0 (mhdenikh
+%  sysxetisi). Sthn konsola ektiponontai ta zeugh auta.
+%    Parathroume oti oi 4 elegxoi symfwnoyn kata pleiopsifia. H parametriki
+%  timh toy p kai to fisher transform confidence interval symfwnoun
+%  apolytws metaksi tous enw oi alloi 2 elegxoi tyxaiopoihshs/bootstrap
+%  fainetai na symfwnoyn me 2 mikres diafores. Auto mporei na ofiletai
+%  ston mikro arithmo bootstrap samples poy dhmiourghsame h kai sto mikro
+%  arithmo randomizations poy kaname me apotelesma na vgazoume oriaka 
+%  diaforetikes times.
+%    Ta tria zeygh symfwna me ton parametriko kai elegxo tyxaiopoihshs
+%  einai ta zeygh 1,6,13 kai fainetai oi 2 elegxoi na symfwnoyn apolyta
+%  edw.
+%  Aksizei na shmeiwthei edw oti egine xrhsh tou rng() gia
+%  apanalipsimothta.

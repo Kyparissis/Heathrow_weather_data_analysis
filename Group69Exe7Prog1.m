@@ -22,29 +22,32 @@ dependedVariable = HeathrowINDICATORData(:, HeathrowINDICATORText == dependedVar
 TypeOfModel_str = ["1st degree polyonymial" "2nd degree polyonymial" "3rd degree polyonymial" "Ln-transform"];
 for i = 1:length(HeathrowINDICATORText)
     if i ~= find(HeathrowINDICATORText == "TN") && i ~= find(HeathrowINDICATORText == dependedVariableText)
-        [adjR2_Model(i), TypeOfModel(i)] = Group69Exe7Fun1(HeathrowINDICATORData(:, i), dependedVariable);
+        [adjR2_Model, TypeOfModel] = Group69Exe7Fun1(HeathrowINDICATORData(:, i), dependedVariable);
         
         sgtitle(sprintf("Depended Variable: [%s] -- Independed Variable: [%s]", dependedVariableText, HeathrowINDICATORText(i)));
         
         % Console output:
         fprintf("  Depended Variable: [%s] -- Independed Variable: [%s]\n",dependedVariableText, HeathrowINDICATORText(i));
         fprintf("========================================================\n");
-        fprintf("--> Best fitted by model #%d (%s)\n", TypeOfModel(i), TypeOfModel_str(TypeOfModel(i)));
-        fprintf("----> adjR2 = %g\n\n", adjR2_Model(i));
+        fprintf("--> Best fitted by model #%d (%s)\n", TypeOfModel, TypeOfModel_str(TypeOfModel));
+        fprintf("----> adjR2 = %g\n\n", adjR2_Model);
     end
 end
 
-%% Conclusions and comments
+%%          Conclusions and comments
+% ==============================================
 %   Enas diktis mporei na eksigisei ton dikti [FG] ean exei sxetika megali
-% timh R2, to opoio apotelei metro tou fitness.
+% timh adjR2, to opoio apotelei metro tou fitness.
 %   Oi diktes pou fainetai na exoun sxetika megalh timh (se sxesh kai me tous
 % ypoloipous) einai oi:
 % [T]: adjR2 = 0.2517 me to model tou Ln-transform (eggenhs grammiko modelo)
 % [RA]: adjR2 = 0.349 me to polyonimiko modelo 2ou vathmou.
-%   It is worth mentinioning that we can also see that some adjusted R square (adjR2) values are negative.
-% The formula for adjusted R square allows it to be negative. It is intended to approximate the actual percentage variance explained. 
-% So if the actual R square is close to zero the adjusted R square can be slightly negative and we think of it as an estimate of zero.
-% Keep in mind that adjusted R square is a model selection criterion, so neither its sign nor its magnitude have any statistical meaning (unlike R square). 
-% Low adjusted R square, whether negative or not, just tells you that the model is a poor fit.
-%  But always adjR2 <= R2!
-% ...
+%   Akzizei episis na shmeiwthei oti mporoume epishs na doume oti orismenes
+% times tou adjR2 einai arnhtikes. O typos gia to adjR2 apo th theoria
+% epitrepei na einai arnhtiko. Proorizetai gia na proseggisei thn
+% pragmatiki posostiaia diakymansi poy eksigitai. Etsi an to R2 einai
+% konta sto 0, to adjR2 mporei na einai elafrws arnhtiko kai to theoroume
+% ws ektimisi ish me 0. (To adjR2 einai ena kritirio epiloghs montelou epomenos 
+% oute to proshmo oute to megethos tou exoun kamia statistiki shmasia, se antithesi 
+% me to R2. Dhladh ena xamhlo adjR2 apla mas leei oti to montelo den tairiazei.)
+% (Epishs prepei panta adjR2 <= R2)

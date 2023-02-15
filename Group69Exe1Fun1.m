@@ -61,12 +61,12 @@ function [p1, p2, isContinuous] = Group69Exe1Fun1(sample)
         ExpectedFreq = n*(binopdf(bins, n, p));
         
         % For discrete distr. c = 1 so we want df = length(bins) - 1
-        [~, p1, stats] = chi2gof(bins, 'Ctrs', bins, 'Frequency', ObservedFreq, 'Expected', ExpectedFreq, 'NParams', 0); 
+        [~, p1] = chi2gof(bins, 'Ctrs', bins, 'Frequency', ObservedFreq, 'Expected', ExpectedFreq, 'NParams', 0); 
         
         %% X^2 goodness-of-fit test that the sample comes from a population with a DISCRETE UNIFORM distribution
         ExpectedFreq = n*((1 / length(bins))*ones(1, length(bins)));
         
-        [~, p2, stats] = chi2gof(bins, 'Ctrs', bins, 'Frequency', ObservedFreq, 'Expected', ExpectedFreq, 'NParams', 0);
+        [~, p2] = chi2gof(bins, 'Ctrs', bins, 'Frequency', ObservedFreq, 'Expected', ExpectedFreq, 'NParams', 0);
        
         
         subtitle(sprintf("(Number of distinct values <= 10)\nBAR GRAPH\np_{1_{Binomial}} = %g and p_{2_{Disc. Unif.}} = %g", p1, p2));

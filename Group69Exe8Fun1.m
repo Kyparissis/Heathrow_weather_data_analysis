@@ -41,6 +41,7 @@ function [adjR2, p] = Group69Exe8Fun1(sample1, sample2)
     % Number of non-linear parameters
     numOfVariables = 2;
     
+    % Calculate the adjusted R2
     adjR2 = 1 - ((n - 1)/(n - (numOfVariables + 1)))*(sum(e.^2))/(sum((sample2 - mean(sample2)).^2));
 
     %% ============== (c') ==============
@@ -61,7 +62,7 @@ function [adjR2, p] = Group69Exe8Fun1(sample1, sample2)
         e_rand = Y - y;  % Error
     
         numOfVariables = 2;
-    
+        
         adjR2_rand(j) = 1 - ((n - 1)/(n - (numOfVariables + 1)))*(sum(e_rand.^2))/(sum((sample2 - mean(sample2)).^2));
     end
     

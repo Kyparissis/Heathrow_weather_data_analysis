@@ -47,8 +47,11 @@ for i = 1:size(R2, 1)
     end
 end
 
-%% Conclusions and comments
-% TODO: THIS
-%>...
-%...
-% ...
+%%          Conclusions and comments
+% ==============================================
+%   Enas diktis mporei na eksigisei ton dikti [FG] ean exei sxetika megali
+% timh R2, to opoio apotelei metro tou fitness.
+% Oi diktes pou fainetai na mporoun na eksigithoun kalytera me grammiko
+% montelo apo kapoion allon dikti einai oi:
+% [T] apo ton [TM] kai ara synepws o [TM] apo ton [T] (Megali sisxetisi, R^2 = 0.954751)
+% Ligotero kalytera mporei o [TS] apo ton [GR] (R^2 = 0.421831)

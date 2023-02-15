@@ -27,7 +27,6 @@ for i = 1:9     % Cheking for the first 9 indicators
     fprintf("p-value from the parametric (student) test = %g \n", p_parametric(i));
     fprintf("p-value from the resampling (bootstrap) test = %g \n", p_bootstrap(i));
 
-
     fprintf("\n");
 end
 

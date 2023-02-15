@@ -55,13 +55,13 @@ function [p_parametric, p_bootstrap] = Group69Exe3Fun1(years, indicatorSample)
     %% ============== (c') ==============
     %% Parametric (student) hypothesis testing for mean difference
     % (Guided by exercise 3.11)
-    sample_X1_mean = mean(sample_X1);
-    sample_X1_std = std(sample_X1);
     sample_X1_length = length(sample_X1);
-    sample_X2_mean = mean(sample_X2);
-    sample_X2_std = std(sample_X2);
     sample_X2_length = length(sample_X2);
-
+%     sample_X1_mean = mean(sample_X1);
+%     sample_X2_mean = mean(sample_X2);
+%     sample_X1_std = std(sample_X1);
+%     sample_X2_std = std(sample_X2);
+% 
 %     X1_X2_meanDiff = sample_X1_mean - sample_X2_mean;
 %     X1_X2_pooledVariance = (sample_X1_std^2*(sample_X1_length - 1) + sample_X2_std^2*(sample_X2_length - 1)) / (sample_X1_length + sample_X2_length - 2);
 %     X1_X2_pooledStd = sqrt(X1_X2_pooledVariance);
@@ -74,11 +74,12 @@ function [p_parametric, p_bootstrap] = Group69Exe3Fun1(years, indicatorSample)
 
     %% Resampling method (bootstrap is chosen) testing for mean difference
     NumOfBootstrapSamples = 2000;       % Number of Bootstrap samples
-    tmp_sample = [sample_X1; sample_X2];
+    tmp_sample = [sample_X1; 
+                  sample_X2];
 
     bootstrap_meanDiffs = zeros(NumOfBootstrapSamples + 1, 1);
     % or bootstrap_meanDiffs = bootstrp(B, @mean, dataX) - bootstrp(B, @mean, dataY);
-    for i=1:NumOfBootstrapSamples
+    for i = 1:NumOfBootstrapSamples
         tmp_index = randi((sample_X1_length + sample_X2_length), (sample_X1_length + sample_X2_length), 1);
         tmp_data = tmp_sample(tmp_index);
         bootstap_samplesX1 = tmp_data(1:sample_X1_length);
@@ -99,7 +100,8 @@ function [p_parametric, p_bootstrap] = Group69Exe3Fun1(years, indicatorSample)
         % original, pick the rank of one of them at random
         rank = rank(unidrnd(length(rank)));
     end
-
+    % p-value represents the probability of observing a correlation coefficient as extreme or more extreme
+    % than the one observed in the original data, given that the null hypothesis is true.
     if rank > 0.5*(NumOfBootstrapSamples + 1)
         p_bootstrap = 2*(1 - rank/(NumOfBootstrapSamples + 1));
     else

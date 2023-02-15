@@ -24,7 +24,7 @@ for i = 2:HeathrowData_cols
     [p1(i), p2(i), isContinuous(i)] = Group69Exe1Fun1(HeathrowData(:, i));
     
     title(sprintf("Indicator %d [%s]", (i - 1), HeathrowINDICATORText(i - 1)));
-
+    
     fprintf("      Indicator %d [%s]\n", (i - 1), HeathrowINDICATORText(i - 1));
     fprintf("============================= \n");
     if isContinuous(i) == 1
