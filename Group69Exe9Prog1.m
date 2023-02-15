@@ -160,11 +160,10 @@ for i = 1:length(dependedVariableCol)
 end
 
 %% Conclusions and comments
-% TODO: THIS
-%>...
-%...
-% ...
-
+% mporoume na doume oti oi methodoi sumfwnoun metaksu tous oson afora tous deiktes
+% pou xrhsimopoioun me shmantikotita gia kathena apo ta duo senaria. pio sugkekrimena, 
+% gia thn eksarthmenh metablhth [FG] blepoume pws exoume tous deiktes [Tm] kai [PP]
+% kai gia thn [GR] ta [TS], [TM]
 
 
 

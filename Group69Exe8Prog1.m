@@ -32,7 +32,9 @@ end
 
 %%          Conclusions and comments
 % ==============================================
-% TODO: THIS
-%>...
-%...
-% ...
+% krinontas apo ta apotelesmata, dedomenou tou montelou pou epileksame
+% vlepoume oti o deikths pou ginetai na eksigei kalutera ton deikth [FG]
+% einai o [SN], me p-value 0.92. O epomenos kaluteros deikths einai o 
+% [GR] me p-value 0.34. Oi deiktes vgazoun nohma, dedomenou oti se xionismenes
+% h meres me xalazi exoume arketa suxna omixlh, idiaitera se xionismenes
+% meres opou h oratothta einai periorismenh

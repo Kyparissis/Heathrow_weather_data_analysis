@@ -61,7 +61,6 @@ else
 end
 
 %% Conclusions and comments
-% TODO: THIS
-%>...
-%...
-% ...
+% Trexontas to programma vlepoume pws gia eksarthmenh metavlhth [FG]
+% h methodos LASSO vriskei to veltisto montelo me suntelesth poinhs
+% iso me 0.151288, enw gia thn [GR] den mporei na vrei to optimal model

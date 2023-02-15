@@ -52,4 +52,7 @@ end
 % metavliti dedomenhs gnwshs ths allhs.
 %   Den egine epilogh apo zeygh diktwn poy mporei na exoun mh grammikh
 % sysxetisi alla egine elegxos gia ola ta zeugh twn diktwn.
-% ...
+% Genika vlepoume pws exoume periptwseis opou exoume upsili mh grammikh susxetish,
+% xwris na exoume grammikh susxetish opws thn periptwsh
+% me [RA] kai [FG], alla kai periptwseis me upshlh grammikh susxetish
+% px h periptwsh twn [T] kai [TM]
