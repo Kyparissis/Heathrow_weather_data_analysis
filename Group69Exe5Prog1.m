@@ -56,3 +56,7 @@ end
 % xwris na exoume grammikh susxetish opws thn periptwsh tou zeugous
 % [RA] kai [FG], alla kai periptwseis me upshlh grammikh susxetish
 % px h periptwsh tou zeugous [T] kai [TM].
+% Opote apofasizoume oti grammikh sysxetisi tha exoun ta zeugh ekeina me
+% sxetika megalh timh syntelesth pearson kai megali timh mutual information
+% me tautoxrones mikres times p values wste na mporei na aporifthei to null
+% hypothesis se kapoio significance level.
