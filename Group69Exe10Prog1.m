@@ -8,7 +8,7 @@ close all;  % Close all windows
 
 %% Import Heathrow.xlsx and read appropriate data
 % Read Heathrow.xlsx spreadsheet as double matrix (for data)
-HeathrowData = 	readmatrix('Heathrow.xlsx');
+HeathrowData = readmatrix('Heathrow.xlsx');
 [HeathrowData_rows, HeathrowData_cols] = size(HeathrowData);
 HeathrowINDICATORData = HeathrowData(:, 2:HeathrowData_cols);
 
@@ -60,7 +60,14 @@ else
     fprintf("---> Optimal model can be achieved by LASSO with lambda = %g\n", LASSO_PenaltyFactor);
 end
 
-%% Conclusions and comments
-% Trexontas to programma vlepoume pws gia eksarthmenh metavlhth [FG]
-% h methodos LASSO vriskei to veltisto montelo me suntelesth poinhs
-% iso me 0.151288, enw gia thn [GR] den mporei na vrei to optimal model
+%%          Conclusions and comments
+% ==============================================
+%  Trexontas to programma vlepoume pws gia eksarthmenh metavlhth [FG]
+% bgazoume to optimal model, dhladh auto me to megalytero adjR2, to
+% [FG] ~ 1 + [Tm] + [PP] + [V] + [RA] + [SN] + [TS] enw h methodos LASSO 
+% vriskei to veltisto montelo gia diaforous suntelestes poinhs (fanhke sto
+% debugging) Emeis kratisame auton poy dinei to mikrotero mean squared error (MSE).
+% Ara lambda(syntelestis poinhs) isos me 0.151288.
+% Gia thn [GR] bgazoume to optimal model [GR] ~ 1 + [TM] + [PP] + [RA] + [SN] + [TS]
+% enw h methodos LASSO den mporei na vrei to optimal model gia kamia timh
+% toy syntelesti poinhs.

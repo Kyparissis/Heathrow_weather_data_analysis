@@ -8,7 +8,7 @@ close all;  % Close all windows
 
 %% Import Heathrow.xlsx and read appropriate data
 % Read Heathrow.xlsx spreadsheet as double matrix (for data)
-HeathrowData = 	readmatrix('Heathrow.xlsx');
+HeathrowData = readmatrix('Heathrow.xlsx');
 [HeathrowData_rows, HeathrowData_cols] = size(HeathrowData);
 HeathrowINDICATORData = HeathrowData(:, 2:HeathrowData_cols);
 
@@ -26,15 +26,16 @@ for i = 1:length(HeathrowINDICATORText)
         fprintf("  Depended Variable: [%s] -- Independed Variable: [%s]\n",dependedVariableText, HeathrowINDICATORText(i));
         fprintf("========================================================\n");
         fprintf("--> adjR2 = %g\n", adjR2);
-        fprintf("--> p-value = %g\n\n", p);
+        fprintf("----> p-value (H0: adjR2 == 0) = %g\n\n", p);
     end
 end
 
 %%          Conclusions and comments
 % ==============================================
-% krinontas apo ta apotelesmata, dedomenou tou montelou pou epileksame
+%   Krinontas apo ta apotelesmata, dedomenou tou montelou pou epileksame
 % vlepoume oti o deikths pou ginetai na eksigei kalutera ton deikth [FG]
-% einai o [SN], me p-value 0.92. O epomenos kaluteros deikths einai o 
-% [GR] me p-value 0.34. Oi deiktes vgazoun nohma, dedomenou oti se xionismenes
-% h meres me xalazi exoume arketa suxna omixlh, idiaitera se xionismenes
-% meres opou h oratothta einai periorismenh
+% tha einai autos me tin megalyterh timh tou adjR2 me tautoxroni mikri p
+% value gia to null hypothesis gia mideniko fitting. Etsi vlepoume oti o
+% diktis poy mporei na ton eksigisei kalytera einai o [SN] me adjR2 = 0.349
+% kai p value = 0 kai meta isos o diktis [T] me adjR2 = 0.204 me p value
+% peripou iso me 0 (= 0.0029).

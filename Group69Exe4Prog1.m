@@ -10,7 +10,7 @@ rng(4); % Set rng for reproducibility
 
 %% Import Heathrow.xlsx and read appropriate data
 % Read Heathrow.xlsx spreadsheet as double matrix (for data)
-HeathrowData = 	readmatrix('Heathrow.xlsx');
+HeathrowData = readmatrix('Heathrow.xlsx');
 [HeathrowData_rows, HeathrowData_cols] = size(HeathrowData);
 
 % Read Heathrow.xlsx spreadsheet as string matrix (for indicators text)

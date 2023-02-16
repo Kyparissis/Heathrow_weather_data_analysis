@@ -8,7 +8,7 @@ close all;  % Close all windows
 
 %% Import Heathrow.xlsx and read appropriate data
 % Read Heathrow.xlsx spreadsheet as double matrix (for data)
-HeathrowData = 	readmatrix('Heathrow.xlsx');
+HeathrowData = readmatrix('Heathrow.xlsx');
 [HeathrowData_rows, HeathrowData_cols] = size(HeathrowData);
 HeathrowINDICATORData = HeathrowData(:, 2:HeathrowData_cols);
 
@@ -65,6 +65,7 @@ for i = 1:length(dependedVariableCol)
     k = size(independedVariables, 2);
     n = HeathrowData_rows_noNaN;
 
+    % Calculate error residual, R2 and adjusted R2
     se2 = (1/(n - (k + 1)))*sum(e.^2); % error variance == stats(4) == lmObj.MSE
     R2 = 1 - (sum(e.^2))/(sum((Y - mean(Y)).^2)); % == stats(1) == lmObj.Rsquared.Ordinary
     adjR2 = 1 - ((n - 1)/(n - (k + 1)))*(sum(e.^2))/(sum((Y - mean(Y)).^2)); % == lmObj.Rsquared.Adjusted
@@ -78,7 +79,7 @@ for i = 1:length(dependedVariableCol)
     alpha = 0.05;
     for j = 2:length(pval) % Ignoring 1st pval since its for the intercept
         if pval(j) < alpha
-            fprintf("---> Indicator's [%s] coeff. is statistically significant (NullModel: p = %g).\n", independedVariableTexts(j - 1), pval(j));
+            fprintf("---> Indicator's [%s] coeff. is statistically significant ((H0: b(i) = 0) p = %g).\n", independedVariableTexts(j - 1), pval(j));
         end
     end
 
@@ -101,11 +102,12 @@ for i = 1:length(dependedVariableCol)
     end
 
     y = x * (bs.*[1 finalmodel]'); % Predicted values
-    e = Y - y; % Error
+    e = Y - y;                     % Error
 
     k = sum(finalmodel);
     n = HeathrowData_rows_noNaN;
 
+    % Calculate error residual, R2 and adjusted R2
     se2 = (1/(n - (k + 1)))*(sum(e.^2));  % error variance/residual
     R2 = 1 - (sum(e.^2))/(sum((Y - mean(Y)).^2)); 
     adjR2 = 1 - ((n - 1)/(n - (k + 1)))*(sum(e.^2))/(sum((Y - mean(Y)).^2));
@@ -118,7 +120,7 @@ for i = 1:length(dependedVariableCol)
     alpha = 0.05;
     for j = 1:length(pval)
         if pval(j) < alpha && finalmodel(j) == 1
-            fprintf("---> Indicator's [%s] coeff. is statistically significant (NullModel: p = %g).\n", independedVariableTexts(j), pval(j));
+            fprintf("---> Indicator's [%s] coeff. is statistically significant ((H0: b(i) = 0) p = %g).\n", independedVariableTexts(j), pval(j));
         end
     end
     
@@ -131,43 +133,42 @@ for i = 1:length(dependedVariableCol)
     fprintf("Number of latent variables/components: %d\n", d);
     [XL, YL, Xscores, Yscores, bPLS] = plsregress(x, Y, d);
 
-    yPLS = [ones(n, 1) x]*bPLS;
+    yPLS = [ones(n, 1) x]*bPLS; % Predicted Values
+    e = Y - yPLS;               % Error
     
+    % Calculate error residual, R2 and adjusted R2
     TSS = sum((Y - mean(Y)).^2);
-    RSS = sum((Y - yPLS).^2);
+    RSS = sum(e.^2);
     R2 = 1 - RSS/TSS;
     adjR2 = 1 - ((n - 1)/(n - (d + 1)))*(1 - R2);
-    se2 = (1/(n - (d + 1)))*(sum((Y - yPLS).^2));
+    se2 = (1/(n - (d + 1)))*(sum(e.^2));
     fprintf("--> Error residual = %g\n", se2);
     fprintf("--> R2 = %g\n", R2);
     fprintf("--> adjR2 = %g\n", adjR2);
 
+    % Significance test
     se = sqrt(se2);
     tvals = bPLS./se;
-    df = n - p - 1; % degrees of freedom
-    pval = 2*(1 - tcdf(abs(tvals), df));
-    
-    % Significance test
+    pval = 2*(1 - tcdf(abs(tvals), n - p - 1));
     % If greater than 0.05, term is not significant at the 5% significance level given the other terms in the model.
     alpha = 0.05;
     for j = 2:length(pval)
         if pval(j) < alpha
-            fprintf("---> Indicator's [%s] coeff. is statistically significant (NullModel: p = %g).\n", independedVariableTexts(j), pval(j));
+            fprintf("---> Indicator's [%s] coeff. is statistically significant ((H0: b(i) = 0) p = %g).\n", independedVariableTexts(j), pval(j));
         end
     end
     
     fprintf("\n\n");
 end
 
-%% Conclusions and comments
-% mporoume na doume oti oi methodoi sumfwnoun metaksu tous oson afora tous deiktes
-% pou xrhsimopoioun me shmantikotita gia kathena apo ta duo senaria. pio sugkekrimena, 
-% gia thn eksarthmenh metablhth [FG] blepoume pws exoume tous deiktes [Tm] kai [PP]
-% kai gia thn [GR] ta [TS], [TM]
-
-
-
-
-
-
-
+%%          Conclusions and comments
+% ==============================================
+%    Mporoume na doume oti ta modela sumfwnoun metaksu tous oson afora tous 
+% deiktes pou xrhsimopoioun me shmantikotita gia kathena apo ta duo senaria. Pio sugkekrimena, 
+% gia thn eksarthmenh metablhth [FG] blepoume pws exoume tous deiktes [Tm] kai [PP] kai 
+% gia thn [GR] ta [TS], [TM].
+%    Telos, opws faietai apo ton elegxo statistikis simantikothtas poy kaname, o diktis [FG] 
+% mporei na eksigithei ikanopoihtika me tous diktes [Tm] kai [PP] meso aplou grammikou 
+% modelou palindromisis h meso tou modelou bhmatikhs palindromisis enw o dikths [GR] mporei 
+% na eksigithei ikanopoihtika me ton dikti [TS] meso aplou grammikou modelou palindromisis h 
+% me tous diktes [TM] kai [TS] meso tou modelou bhmatikhs palindromisis.
