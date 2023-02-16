@@ -70,3 +70,5 @@ fprintf("=> Indicator with the smallest p(bootstrap) value is [%s] \n", Heathrow
 % Telos aksizei na shmeiwthei kai h periptwsh tou indicator [PP] opoy kai
 % stis dyo periptwseis phrame p = NaN. Auto symbainei dioti stin periodo
 % 1949 - 1958 den eixame katholou deigmata.
+%  Aksizei na shmeiwthei edw oti egine xrhsh tou rng() gia
+%  apanalipsimothta.

@@ -76,6 +76,6 @@ end
 % Indicator [FG]: Apo 108.9 se 29.97 (Poly symantiki allagh timhs, triplasiasmos)
 % Oi ypoloipoi deiktes den fainetai na exoyn shmantikh allagh meshs timhs
 % stis dyo periodous
-% Edw kzisei epishs na shmeiwthei kai h periptwsh tou Indicator [PP] opoy
+% Edw akzisei epishs na shmeiwthei kai h periptwsh tou Indicator [PP] opoy
 % Apo NaN se 624.89. Edw den eixame katholou deigmata gia th 1h periodo 
 % opote den mporoume na krinoume an eixame symantiki allagh meshs timhs.

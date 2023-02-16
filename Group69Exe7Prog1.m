@@ -40,8 +40,8 @@ end
 % timh adjR2, to opoio apotelei metro tou fitness.
 %   Oi diktes pou fainetai na exoun sxetika megalh timh (se sxesh kai me tous
 % ypoloipous) einai oi:
-% [T]: adjR2 = 0.2517 me to model tou Ln-transform (eggenhs grammiko modelo)
 % [RA]: adjR2 = 0.349 me to polyonimiko modelo 2ou vathmou.
+% [T]: adjR2 = 0.2517 me to model tou Ln-transform (eggenhs grammiko modelo)
 %   Akzizei episis na shmeiwthei oti mporoume epishs na doume oti orismenes
 % times tou adjR2 einai arnhtikes. O typos gia to adjR2 apo th theoria
 % epitrepei na einai arnhtiko. Proorizetai gia na proseggisei thn

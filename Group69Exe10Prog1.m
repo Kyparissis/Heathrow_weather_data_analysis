@@ -70,4 +70,4 @@ end
 % Ara lambda(syntelestis poinhs) isos me 0.151288.
 % Gia thn [GR] bgazoume to optimal model [GR] ~ 1 + [TM] + [PP] + [RA] + [SN] + [TS]
 % enw h methodos LASSO den mporei na vrei to optimal model gia kamia timh
-% toy syntelesti poinhs.
+% toy syntelesti poinhs (H synarthsh epestrepse []).
